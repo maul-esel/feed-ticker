@@ -3,7 +3,7 @@
   "name": "ticker",
   "version": "0.0.1",
   "description": "RSS ticker add-on",
-  "main": "index.js",
+  "main": "main.js",
   "author": "Dominik Klumpp",
   "engines": {
     "firefox": ">=38.0a1",
