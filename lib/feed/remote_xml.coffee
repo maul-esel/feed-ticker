@@ -1,12 +1,12 @@
-{ Feed } = require("lib/feed")
-
 { Request } = require("sdk/request")
 Promise = require("sdk/core/promise")
 { Cc, Ci } = require("chrome");
 
 # A base class for feeds based on XML documents available on the web
 # @abstract
-class RemoteXmlFeed extends Feed
+class RemoteXmlFeed # implements Feed
+  items : []
+
   # Exposes the XPathResult.ANY_TYPE constant to subclasses
   @RESULT_TYPE_ANY : Ci.nsIDOMXPathResult.ANY_TYPE
 
