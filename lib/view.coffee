@@ -11,21 +11,22 @@ class window.View
   # @param [Element] container The container element where feed items are placed
   constructor : (@container) ->
     window.addEventListener('message', @onMessageReceived, false)
-    window.parent.postMessage({ command: 'READY' }, '*')
+    @send('READY')
     @moveTimer = setInterval(@move, 1000);
 
   # Callback for communication with the @see ViewManager
   # @private
   onMessageReceived : (event) =>
-    return unless typeof(event.data) == "object" && event.data.command?
-    switch event.data.command
-      when 'REMOVE_ITEM' then @remove(event.data.data)
-      when 'REPLACE_ITEMS'
-        items = if Array.isArray(event.data.data)
-          event.data.data
-        else # NOTE: even when passed as array, data sometimes seems to arrive as object
-          (item for k, item of event.data.data) # FIXME: ugly workaround
-        @replaceItems(items)
+    message = JSON.parse(event.data)
+    switch message.command
+      when 'REMOVE_ITEM' then @remove(message.data)
+      when 'REPLACE_ITEMS' then @replaceItems(message.data)
+
+  send : (command, data) =>
+    window.parent.postMessage(JSON.stringify({
+      command: command,
+      data:data
+    }), '*')
 
   # Helper method for replacing the feed items with new content from the manager
   # @private
@@ -47,7 +48,7 @@ class window.View
     node.remove() for node in old_nodes
 
   onItemClicked : (item) =>
-    window.parent.postMessage({ command: 'NOTIFY_CLICK', data: item }, '*')
+    @send('NOTIFY_CLICK', item)
 
   # Helper method to update a feed entry with new information
   # @private

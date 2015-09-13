@@ -71,15 +71,15 @@ class ViewManager
   # @param view The view to update. If omitted, all views are updated.
   # @param origin The origin for the update. Used in conjunction with the previous parameter
   send : (command, data, view = null, origin = null) =>
-    (view ? @frame).postMessage({
+    (view ? @frame).postMessage(JSON.stringify({
       command: command,
       data: data
-    }, origin ? @frame.url)
+    }), origin ? @frame.url)
 
   # Callback method for communication with the @see View instances
   # @private
   onReceiveMessage : (event) =>
-    message = event.data
+    message = JSON.parse(event.data)
     switch message.command
       when 'READY'
         @onViewReady(event.source, event.origin)
