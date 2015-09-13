@@ -1,3 +1,6 @@
+curry = (fn, args...) ->
+  -> fn.apply(this, args.concat(Array.slice(arguments)))
+
 # Manages the frame content of the toolbar
 class window.View
   # Current offset of moving ticker items
@@ -8,7 +11,7 @@ class window.View
   # @param [Element] container The container element where feed items are placed
   constructor : (@container) ->
     window.addEventListener('message', @onMessageReceived, false)
-    window.parent.postMessage({ command: 'READY' }, '*');
+    window.parent.postMessage({ command: 'READY' }, '*')
     @moveTimer = setInterval(@move, 1000);
 
   # Callback for communication with the @see ViewManager
@@ -34,12 +37,17 @@ class window.View
     for item in items
       index = old_nodes.findIndex((node) => node.getAttribute('data-ticker-id') == item.id)
       if index == -1
-        @container.appendChild(@createEntry(item)) # TODO: order
+        entry = @createEntry(item)
+        entry.addEventListener("click", curry(@onItemClicked, item))
+        @container.appendChild(entry) # TODO: order
       else
         @updateNode(old_nodes[index], item)
         old_nodes[index..index] = [] # remove from old nodes
 
     node.remove() for node in old_nodes
+
+  onItemClicked : (item) =>
+    window.parent.postMessage({ command: 'NOTIFY_CLICK', data: item }, '*')
 
   # Helper method to update a feed entry with new information
   # @private
