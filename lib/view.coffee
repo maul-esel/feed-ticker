@@ -57,7 +57,7 @@ class window.View
   #
   # @param [FeedItem] item The item whose entry should be removed
   remove : (item) =>
-    document.querySelector(".ticker-item[data-ticker-id='#{item.id}']").remove()
+    document.querySelector(".ticker-item[data-ticker-id='#{item.id}']")?.remove()
 
   # Helper method to create a feed entry for a new item
   # @private
