@@ -6,14 +6,14 @@
 
 class Model
   constructor : (@sources, @filters) ->
-    @feeds = flatten(source.getFeeds() for source in @sources)
     @viewManager = new ViewManager
     @update()
 
   update : =>
+    feeds = flatten(source.getFeeds() for source in @sources)
     @viewManager.clear()
     all(
-      feed.update().then((=> @filterItems(feed)), (=> @filterItems(feed))) for feed in @feeds
+      feed.update().then((=> @filterItems(feed)), (=> @filterItems(feed))) for feed in feeds
     ).then(=> @viewManager.update())
 
   filterItems : (feed) =>
