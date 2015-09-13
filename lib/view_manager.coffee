@@ -29,7 +29,6 @@ class ViewManager
       @displayedItems.push(item) # TODO: insert at specific position
     else
       @displayedItems[index] = item
-    console.log 'display:', item.link
 
   # Removes an item from the list of displayed items, if it exists there.
   #
@@ -39,7 +38,6 @@ class ViewManager
   removeItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
     @displayedItems[index..index] = [] unless index == -1
-    console.log 'remove:', item.link
 
   # Updates views with the changes made to the list of displayed items.
   #
