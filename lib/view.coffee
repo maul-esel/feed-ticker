@@ -12,7 +12,9 @@ class window.View
   constructor : (@container) ->
     window.addEventListener('message', @onMessageReceived, false)
     @send('READY')
-    @moveTimer = setInterval(@move, 1000);
+    @startMoving()
+    @container.addEventListener("mouseenter", @stopMoving, true)
+    @container.addEventListener("mouseleave", @startMoving, true)
 
   # Callback for communication with the @see ViewManager
   # @private
@@ -103,6 +105,13 @@ class window.View
       element
     else
       document.createTextNode(data)
+
+  startMoving : =>
+    @moveTimer = setInterval(@move, 1000) unless @moveTimer?
+
+  stopMoving : =>
+    clearInterval(@moveTimer) if @moveTimer?
+    @moveTimer = undefined
 
   # Callback to move ticker entries
   # @private
