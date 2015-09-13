@@ -3,8 +3,7 @@
 class Model
   constructor : (@sources, @filters) ->
     @feeds = flatten(source.getFeeds() for source in @sources)
-    for feed in @feeds
-      feed.on("updated", @onFeedUpdated)
+    feed.on("updated", @onFeedUpdated) for feed in @feeds
     @requestUpdate()
 
   onFeedUpdated : (feed) =>
@@ -13,7 +12,6 @@ class Model
     # TODO
 
   requestUpdate : =>
-    for feed in @feeds
-      feed.requestUpdate()
+    feed.requestUpdate() for feed in @feeds
 
 exports.Model = Model
