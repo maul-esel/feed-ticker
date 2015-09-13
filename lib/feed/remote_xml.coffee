@@ -1,6 +1,6 @@
 { Request } = require("sdk/request")
 Promise = require("sdk/core/promise")
-{ Cc, Ci } = require("chrome");
+{ Cc, Ci } = require("chrome")
 
 # A base class for feeds based on XML documents available on the web
 # @abstract
@@ -51,7 +51,7 @@ class RemoteXmlFeed # implements Feed
   # @return [Document] A DOM document representing the XML
   parseXml : (src) =>
     new Cc["@mozilla.org/xmlextras/domparser;1"](Ci.nsIDOMParser)
-      .parseFromString(src, "application/xml");
+      .parseFromString(src, "application/xml")
 
   # Helper method for subclasses to navigate the XML using xpath
   getXml : (xpath, context = null, nsResolver = null, resultType = null) =>

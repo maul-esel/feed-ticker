@@ -116,7 +116,7 @@ class window.View
   # Callback to move ticker entries
   # @private
   move : =>
-    @offset = (@offset + 25) % 1000;
+    @offset = (@offset + 25) % 1000
     entries = document.querySelectorAll(".ticker-item")
     for i in [0...entries.length]
       entries.item(i).style.left = @offset + "px"
