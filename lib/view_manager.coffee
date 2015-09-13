@@ -13,6 +13,7 @@ class ViewManager
     @createUI()
 
   # Clears the list of displayed items
+  # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
   clear : =>
     @displayedItems = []
 
