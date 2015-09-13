@@ -1,0 +1,16 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+body {
+  position: relative;
+}
+.ticker-item {
+  margin: 0;
+  position: relative;
+  transition: left 1s linear;
+  padding: 3px;
+}
+.ticker-item img {
+  float: left
+}
