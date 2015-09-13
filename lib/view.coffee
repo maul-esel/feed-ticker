@@ -17,7 +17,12 @@ class window.View
     return unless typeof(event.data) == "object" && event.data.command?
     switch event.data.command
       when 'NOTIFY_REMOVE' then @remove(event.data.data)
-      when 'REPLACE_ITEMS' then @replaceItems(event.data.data)
+      when 'REPLACE_ITEMS'
+        items = if Array.isArray(event.data.data)
+          event.data.data
+        else # NOTE: even when passed as array, data sometimes seems to arrive as object
+          (item for k, item of event.data.data) # FIXME: ugly workaround
+        @replaceItems(items)
 
   # Helper method for replacing the feed items with new content from the manager
   # @private
