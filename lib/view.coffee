@@ -16,7 +16,7 @@ class window.View
   onMessageReceived : (event) =>
     return unless typeof(event.data) == "object" && event.data.command?
     switch event.data.command
-      when 'NOTIFY_REMOVE' then @remove(event.data.data)
+      when 'REMOVE_ITEM' then @remove(event.data.data)
       when 'REPLACE_ITEMS'
         items = if Array.isArray(event.data.data)
           event.data.data

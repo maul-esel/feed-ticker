@@ -96,7 +96,7 @@ class ViewManager
   onNotifyClick : (item) =>
     @removeItem(item)
     tabs.open(item.link)
-    @send('NOTIFY_REMOVE', id)
+    @send('REMOVE_ITEM', item)
     # TODO: permanently remove
 
 exports.ViewManager = ViewManager
