@@ -10,7 +10,12 @@ body {
   position: relative;
   transition: left 1s linear;
   padding: 3px;
+  height: 30px;
 }
 .ticker-item img {
-  float: left
+  float: left;
+  margin: 2px;
+  display: inline;
+  width: 16px;
+  height: 16px;
 }

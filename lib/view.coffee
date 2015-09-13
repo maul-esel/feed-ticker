@@ -81,7 +81,7 @@ class window.View
       children: [
         {
           type: 'img',
-          attr: { src: item.faviconURL }
+          attr: { src: item.faviconURL, alt: "" }
         },
         item.title
       ]
