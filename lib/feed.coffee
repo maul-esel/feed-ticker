@@ -9,7 +9,9 @@ class Feed extends EventTarget
 
   # Updates the feed content
   # @abstract
-  requestUpdate : =>
+  #
+  # @return [Promise] A promise that is resolved once the update is complete, or rejected in case of error.
+  update : =>
 
   # @event updated Raised when the feed content has been updated
 

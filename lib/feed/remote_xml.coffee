@@ -1,6 +1,7 @@
 { Feed } = require("lib/feed")
 
 { Request } = require("sdk/request")
+Promise = require("sdk/core/promise")
 { Cc, Ci } = require("chrome");
 
 # A base class for feeds based on XML documents available on the web
@@ -12,33 +13,35 @@ class RemoteXmlFeed extends Feed
   # Exposes the XPathResult.STRING_TYPE constant to subclasses
   @RESULT_TYPE_STRING : Ci.nsIDOMXPathResult.STRING_TYPE
 
-  # Holds the last request made to the URL
-  # @private
-  current_request : null
-
   # Creates a new instance of this class.
   #
   # @param [String] url The URL where the XML document can be found
   # @param [String] mime The MIME type to use when requesting the document
   constructor : (@url, @mime) ->
 
-  requestUpdate : =>
-    @current_request.removeListener("complete", @onDocumentReceived) if @current_request
+  update : =>
+    { promise, resolve, reject } = Promise.defer()
     @current_request = Request({
       url: @url,
       headers: {
         Accept: @mime
       },
-      onComplete: @onDocumentReceived
+      onComplete: (response) => @onDocumentReceived(response, resolve, reject)
     })
     @current_request.get()
+    promise
 
   # Callback for requests to the URL
   # @private
-  onDocumentReceived : (response) =>
-    return unless 200 <= response.status < 300
-    @items = @handleDocument(@doc = @parseXml(response.text))
-    @onUpdated()
+  onDocumentReceived : (response, resolve, reject) =>
+    if 200 <= response.status < 300
+      try
+        @items = @handleDocument(@doc = @parseXml(response.text))
+        resolve()
+      catch error
+        reject()
+    else
+      reject()
 
   # Helper method to parse XML
   # @private
