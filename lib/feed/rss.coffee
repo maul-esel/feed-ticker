@@ -11,7 +11,7 @@ class RssFeed extends RemoteXmlFeed
 
   handleDocument : (doc) =>
     entries = @getXml("/rss/channel/item")
-    while (entry = entries.iterateNext()) != null
+    while (entry = entries.iterateNext())?
       new FeedItem({
         title : @getString("title/text()", entry),
         link : @getString("link/text()", entry),
