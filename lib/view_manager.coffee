@@ -1,5 +1,6 @@
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
+tabs = require("sdk/tabs")
 
 # Manages the displayed items.
 # Communicates with @see View instances running in the context of the UI's frame.
@@ -82,8 +83,8 @@ class ViewManager
     switch message.command
       when 'READY'
         @onViewReady(event.source, event.origin)
-      when 'NOTIFY_REMOVE'
-        @onNotifyRemove(message.data)
+      when 'NOTIFY_CLICK'
+        @onNotifyClick(message.data)
 
   # Helper method to handle messages from a view.
   # @private
@@ -92,8 +93,9 @@ class ViewManager
 
   # Helper method to handle messages from a view.
   # @private
-  onNotifyRemove : (item) =>
+  onNotifyClick : (item) =>
     @removeItem(item)
+    tabs.open(item.link)
     @send('NOTIFY_REMOVE', id)
     # TODO: permanently remove
 
