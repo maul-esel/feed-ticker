@@ -1,14 +1,19 @@
 { flatten } = require('sdk/util/array');
 Promise = require("sdk/core/promise")
 
+{ ViewManager } = require("lib/view_manager")
+
 class Model
   constructor : (@sources, @filters) ->
     @feeds = flatten(source.getFeeds() for source in @sources)
     feed.on("updated", @onFeedUpdated) for feed in @feeds
     @requestUpdate()
+    @viewManager = new ViewManager
 
   onFeedUpdated : (feed) =>
-    @filter(item) for item in feed.items
+    promises = (@filter(item) for item in feed.items)
+    # Once all items have been filtered, update the views – even if some items were rejected.
+    Promise.all(promises).then (=> @viewManager.update()), (=> @viewManager.update())
 
   requestUpdate : =>
     feed.requestUpdate() for feed in @feeds
@@ -27,9 +32,9 @@ class Model
     Promise.all(promises).then (=> @display(item)), (=> @remove(item))
 
   display : (item) =>
-    console.log("display:", item.link)
+    @viewManager.displayItem(item)
 
   remove : (item) =>
-    console.log("remove:", item.link)
+    @viewManager.removeItem(item)
 
 exports.Model = Model
