@@ -121,17 +121,17 @@ class window.View
   # Callback to move ticker entries
   # @private
   move : =>
-    @offset += 100
-    max_offset = @container.clientWidth + 100
-    if @offset > max_offset
-      @container.classList.add("notransition") # disable transitions
-      @offset = -@container.scrollWidth
-      reset = true
-
+    @offset -= 100
     entries = document.querySelectorAll(".ticker-item")
+
+    reset = Array.from(entries).every((entry) => entry.offsetLeft + entry.offsetWidth < 0)
+    if reset
+      @container.classList.add("notransition") # disable transitions
+      @offset = @container.clientWidth + 100
+
     entry.style.left = @offset + "px" for entry in entries
 
-    if reset?
+    if reset
       @container.offsetHeight # flush css changes before enabling transitions
       @container.classList.remove("notransition") # enable transitions
 
