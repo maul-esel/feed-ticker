@@ -18,5 +18,8 @@
       "type": "bool",
       "value": true
     }
-  ]
+  ],
+  "dependencies": {
+    "html-to-text": "^1.3.1"
+  }
 }
