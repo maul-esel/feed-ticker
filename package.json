@@ -17,6 +17,13 @@
       "description": "Hides the toolbar when no new feed entries are found. It is shown again automatically once new entries are discovered",
       "type": "bool",
       "value": true
+    },
+    {
+      "name": "updateTimerInterval",
+      "title": "Update timer interval",
+      "description": "The time between automatic feed updates, in seconds",
+      "type": "integer",
+      "value": 900
     }
   ],
   "dependencies": {
