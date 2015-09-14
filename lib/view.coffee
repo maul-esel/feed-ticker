@@ -42,6 +42,8 @@ class window.View
       if index == -1
         entry = @createEntry(item)
         entry.addEventListener("click", curry(@onItemClicked, item))
+        entry.addEventListener("mouseenter", curry(@onShowDetails, item, entry))
+        entry.addEventListener("mouseleave", => @send('HIDE_DETAILS'))
         @container.appendChild(entry) # TODO: order
       else
         @updateNode(old_nodes[index], item)
@@ -51,6 +53,9 @@ class window.View
 
   onItemClicked : (item) =>
     @send('NOTIFY_CLICK', item)
+
+  onShowDetails : (item, entry) =>
+    @send('SHOW_DETAILS', { item: item, left: entry.offsetLeft })
 
   # Helper method to update a feed entry with new information
   # @private

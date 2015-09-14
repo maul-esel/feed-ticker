@@ -1,7 +1,10 @@
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
+{ Panel } = require("sdk/panel")
 tabs = require("sdk/tabs")
 preferences = require("sdk/simple-prefs").prefs
+
+{ Templater } = require("lib/templater")
 
 # Manages the displayed items.
 # Communicates with @see View instances running in the context of the UI's frame.
@@ -92,6 +95,10 @@ class ViewManager
         @onViewReady(event.source, event.origin)
       when 'NOTIFY_CLICK'
         @onNotifyClick(message.data)
+      when 'SHOW_DETAILS'
+        @onShowDetails(message.data.item, message.data.left)
+      when 'HIDE_DETAILS'
+        @onHideDetails()
 
   # Helper method to handle messages from a view.
   # @private
@@ -107,5 +114,19 @@ class ViewManager
       @hideToolbar()
     else
       @send('REMOVE_ITEM', item)
+
+  onShowDetails : (item, left) =>
+    @details = Panel({
+      width: 500,
+      height: 300,
+      position: { top: -5, left: left + 10 },
+      contentURL: "data:text/html;charset=utf-8," + encodeURIComponent(Templater.render('details.html', item))
+      contentStyleFile: "./details.css"
+    }).show()
+
+  onHideDetails : =>
+    if @details?
+      @details.destroy()
+      @details = undefined
 
 exports.ViewManager = ViewManager
