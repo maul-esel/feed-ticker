@@ -9,5 +9,14 @@
     "firefox": ">=38.0a1",
     "fennec": ">=38.0a1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "preferences": [
+    {
+      "name": "hideOnEmpty",
+      "title": "Hide toolbar when empty",
+      "description": "Hides the toolbar when no new feed entries are found. It is shown again automatically once new entries are discovered",
+      "type": "bool",
+      "value": true
+    }
+  ]
 }

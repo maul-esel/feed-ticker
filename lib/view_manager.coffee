@@ -1,6 +1,7 @@
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
 tabs = require("sdk/tabs")
+preferences = require("sdk/simple-prefs").prefs
 
 # Manages the displayed items.
 # Communicates with @see View instances running in the context of the UI's frame.
@@ -8,10 +9,6 @@ class ViewManager
   # The list of items displayed in the toolbar.
   # @private
   displayedItems : []
-
-  # Creates a new instance and initializes the UI
-  constructor : ->
-    @createUI()
 
   # Clears the list of displayed items
   # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
@@ -46,7 +43,19 @@ class ViewManager
   #
   # @note The parameters are for internal use by this class only.
   update : (view = null, origin = null) =>
-    @send('REPLACE_ITEMS', @displayedItems, view, origin)
+    if @displayedItems.length == 0 && preferences.hideOnEmpty
+      @hideToolbar()
+    else
+      @showToolbar()
+      @send('REPLACE_ITEMS', @displayedItems, view, origin)
+
+  hideToolbar : =>
+    if @toolbar?
+      @toolbar.destroy()
+      @toolbar = undefined
+
+  showToolbar : =>
+    @createUI() unless @toolbar?
 
   # Helper method to create the toolbar UI
   # @private
@@ -54,8 +63,8 @@ class ViewManager
     @frame = Frame({
       url: './ticker.html'
       onMessage: @onReceiveMessage
-    })
-    toolbar = Toolbar({
+    }) unless @frame?
+    @toolbar = Toolbar({
       name: 'rss-ticker-nova-bar',
       title: 'RSS Ticker Toolbar',
       items: [@frame]
@@ -94,7 +103,9 @@ class ViewManager
   onNotifyClick : (item) =>
     @removeItem(item)
     tabs.open(item.link)
-    @send('REMOVE_ITEM', item)
-    # TODO: permanently remove
+    if @displayedItems.length == 0 && preferences.hideOnEmpty
+      @hideToolbar()
+    else
+      @send('REMOVE_ITEM', item)
 
 exports.ViewManager = ViewManager
