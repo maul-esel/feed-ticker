@@ -117,8 +117,8 @@ class ViewManager
 
   onShowDetails : (item, left) =>
     @details = Panel({
-      width: 500,
-      height: 300,
+      width: 400,
+      height: 200,
       position: { top: -5, left: left + 10 },
       contentURL: "data:text/html;charset=utf-8," + encodeURIComponent(Templater.render('details.html', item))
       contentStyleFile: "./details.css"

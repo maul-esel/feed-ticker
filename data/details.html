@@ -3,11 +3,13 @@
   <head>
   </head>
   <body>
-    <h2>{{ title }}</h2>
-    <span id="feed-link">{{ link }}</span>
-    <hr/>
-    <div>
-      {{[ summary ]}}
+    <div id="content">
+      <h1><img src="{{ faviconURL }}" id="feed-icon"/>{{ title }}</h1>
+      <span id="feed-link">{{ link }}</span>
+      <hr/>
+      <div>
+        {{[ summary ]}}
+      </div>
     </div>
   </body>
 </html>
