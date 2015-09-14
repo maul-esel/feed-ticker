@@ -1,6 +1,6 @@
 { flatten } = require('sdk/util/array')
 { all } = require("sdk/core/promise")
-{ identity } = require("sdk/lang/functional")
+{ identity, partial } = require("sdk/lang/functional")
 { setInterval } = require("sdk/timers")
 preferences = require("sdk/simple-prefs").prefs
 
@@ -16,7 +16,7 @@ class Model
     feeds = flatten(source.getFeeds() for source in @sources)
     @viewManager.clear()
     all(
-      feed.update().then((=> @filterItems(feed)), (=> @filterItems(feed))) for feed in feeds
+      feed.update().then(partial(@filterItems, feed), partial(@filterItems, feed)) for feed in feeds
     ).then(=> @viewManager.update())
 
   filterItems : (feed) =>
