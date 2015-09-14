@@ -1,13 +1,12 @@
 {
-  "title": "Ticker",
-  "name": "ticker",
-  "version": "0.0.1",
-  "description": "RSS ticker add-on",
+  "title": "FeedTicker",
+  "name": "feed-ticker",
+  "version": "0.0.1-alpha.1",
+  "description": "FeedTicker displays RSS feeds in a toolbar",
   "main": "main.js",
   "author": "Dominik Klumpp",
   "engines": {
-    "firefox": ">=38.0a1",
-    "fennec": ">=38.0a1"
+    "firefox": ">=38.0a1"
   },
   "license": "MIT",
   "preferences": [
