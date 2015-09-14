@@ -1,8 +1,8 @@
-{ Model } = require("lib/model")
+{ FeedTicker } = require("lib/feed_ticker")
 { LivemarkSource } = require("lib/source/livemarks")
 { HistoryFilter } = require("lib/filter/history")
 
-new Model(
+m = new FeedTicker(
   [ new LivemarkSource ],
   [ new HistoryFilter ]
 )

@@ -6,7 +6,7 @@ preferences = require("sdk/simple-prefs").prefs
 
 { ViewManager } = require("lib/view_manager")
 
-class Model
+class FeedTicker
   constructor : (@sources, @filters) ->
     @viewManager = new ViewManager
     @update()
@@ -26,4 +26,4 @@ class Model
     all(filter.isAccepted(item) for filter in @filters)
     .then( (results) => @viewManager.displayItem(item) if results.every(identity) )
 
-exports.Model = Model
+exports.FeedTicker = FeedTicker
