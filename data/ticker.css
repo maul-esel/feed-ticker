@@ -4,8 +4,10 @@ html, body {
 }
 body {
   position: relative;
+  white-space: nowrap;
 }
 .ticker-item {
+  display: inline-block;
   margin: 0;
   position: relative;
   transition: left 1s linear;
