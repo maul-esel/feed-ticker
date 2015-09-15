@@ -1,0 +1,56 @@
+---
+---
+
+@mixin cover()
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+
+html
+  background: #fff url('../images/icon.svg') left bottom / auto 2.5% repeat padding-box padding-box fixed
+
+body
+  @include cover()
+  background-color: rgba(255, 255, 255, 0.75)
+  margin: 0
+
+#browser
+  @include cover()
+  height: 95%
+  margin: auto
+
+#ticker
+  @include cover()
+  white-space: nowrap
+
+a.ticker-item
+  font-family: sans-serif
+  color: #222
+  text-decoration: none
+  outline: 0
+
+  display: inline-block
+  padding: 0.75%
+  padding-left: 3%
+  background: #BBB url('../images/icon.svg')  2% center / auto 60% no-repeat
+
+  position: relative
+  left: 105%
+  animation: ticker 60s linear 3s infinite
+
+#ticker:hover a.ticker-item
+  animation-play-state: paused
+
+@keyframes ticker
+  from
+    left: 105%
+  to
+    left: -200%
+
+#document
+  @include cover()
+  background-color: white
+  padding: 2%
+  font-family: Helvetica, sans-serif
