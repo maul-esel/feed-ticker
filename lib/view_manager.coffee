@@ -1,12 +1,12 @@
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
-{ Panel } = require("sdk/panel")
-tabs = require("sdk/tabs")
-preferences = require("sdk/simple-prefs").prefs
+{ Panel } = require('sdk/panel')
+tabs = require('sdk/tabs')
+preferences = require('sdk/simple-prefs').prefs
 windowUtils = require('sdk/window/utils')
 { identify } = require('sdk/ui/id')
 
-{ Templater } = require("lib/templater")
+{ Templater } = require('lib/templater')
 { ContextMenu, MenuItem, SubMenu } = require('lib/contextmenu')
 
 # Manages the displayed items.
@@ -137,8 +137,8 @@ class ViewManager
       width: 400,
       height: 200,
       position: { top: -5, left: left + 10 },
-      contentURL: "data:text/html;charset=utf-8," + encodeURIComponent(Templater.render('details.html', item))
-      contentStyleFile: "./details.css"
+      contentURL: 'data:text/html;charset=utf-8,' + encodeURIComponent(Templater.render('details.html', item))
+      contentStyleFile: './details.css'
     }).show()
 
   onHideDetails : =>

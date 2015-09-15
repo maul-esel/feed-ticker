@@ -1,5 +1,5 @@
-{ getFavicon } = require("sdk/places/favicon")
-{ URL } = require("sdk/url")
+{ getFavicon } = require('sdk/places/favicon')
+{ URL } = require('sdk/url')
 
 # Represents an item in a feed
 class FeedItem

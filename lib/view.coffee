@@ -13,8 +13,8 @@ class window.View
     window.addEventListener('message', @onMessageReceived, false)
     @send('READY')
     @startMoving()
-    @container.addEventListener("mouseenter", @stopMoving, true)
-    @container.addEventListener("mouseleave", @startMoving, true)
+    @container.addEventListener('mouseenter', @stopMoving, true)
+    @container.addEventListener('mouseleave', @startMoving, true)
 
   # Callback for communication with the @see ViewManager
   # @private
@@ -41,9 +41,9 @@ class window.View
       index = old_nodes.findIndex((node) => node.getAttribute('data-ticker-id') == item.id)
       if index == -1
         entry = @createEntry(item)
-        entry.addEventListener("click", curry(@onItemClicked, item))
-        entry.addEventListener("mouseenter", curry(@onShowDetails, item, entry))
-        entry.addEventListener("mouseleave", => @send('HIDE_DETAILS'))
+        entry.addEventListener('click', curry(@onItemClicked, item))
+        entry.addEventListener('mouseenter', curry(@onShowDetails, item, entry))
+        entry.addEventListener('mouseleave', => @send('HIDE_DETAILS'))
         @container.appendChild(entry) # TODO: order
       else
         @updateNode(old_nodes[index], item)
@@ -65,8 +65,8 @@ class window.View
   updateNode : (node, item) =>
     unless node.childNodes.item(1).wholeText == item.title
       node.replaceChild(document.createTextNode(item.title), node.childNodes.item(1))
-    unless node.children.item(0).getAttribute("src") == item.faviconURL
-      node.children.item(0).setAttribute("src", item.faviconURL)
+    unless node.children.item(0).getAttribute('src') == item.faviconURL
+      node.children.item(0).setAttribute('src', item.faviconURL)
 
   # Helper method for removing feed entries as requested by the manager
   # @private
@@ -89,7 +89,7 @@ class window.View
       children: [
         {
           type: 'img',
-          attr: { src: item.faviconURL, alt: "" }
+          attr: { src: item.faviconURL, alt: '' }
         },
         item.title
       ]
@@ -102,7 +102,7 @@ class window.View
   #
   # @return [Node] The DOM node representing the data
   buildHtml : (data) =>
-    if typeof(data) == "object"
+    if typeof(data) == 'object'
       element = document.createElement(data.type)
       element.classList.add(cls) for cls in data.classes ? []
       element.setAttribute(attr, val) for attr, val of data.attr ? {}
@@ -122,17 +122,17 @@ class window.View
   # @private
   move : =>
     @offset -= 100
-    entries = document.querySelectorAll(".ticker-item")
+    entries = document.querySelectorAll('.ticker-item')
 
     reset = Array.from(entries).every((entry) => entry.offsetLeft + entry.offsetWidth < 0)
     if reset
-      @container.classList.add("notransition") # disable transitions
+      @container.classList.add('notransition') # disable transitions
       @offset = @container.clientWidth + 100
 
-    entry.style.left = @offset + "px" for entry in entries
+    entry.style.left = "#{@offset}px" for entry in entries
 
     if reset
       @container.offsetHeight # flush css changes before enabling transitions
-      @container.classList.remove("notransition") # enable transitions
+      @container.classList.remove('notransition') # enable transitions
 
 exports.View = View

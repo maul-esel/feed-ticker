@@ -1,10 +1,10 @@
 { flatten } = require('sdk/util/array')
-{ all } = require("sdk/core/promise")
-{ identity, partial } = require("sdk/lang/functional")
-{ setInterval } = require("sdk/timers")
-preferences = require("sdk/simple-prefs").prefs
+{ all } = require('sdk/core/promise')
+{ identity, partial } = require('sdk/lang/functional')
+{ setInterval } = require('sdk/timers')
+preferences = require('sdk/simple-prefs').prefs
 
-{ ViewManager } = require("lib/view_manager")
+{ ViewManager } = require('lib/view_manager')
 
 class FeedTicker
   constructor : (@sources, @filters) ->

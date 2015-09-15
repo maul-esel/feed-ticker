@@ -1,5 +1,5 @@
-{ RemoteXmlFeed } = require("lib/feed/remote_xml")
-{ FeedItem } = require("lib/feed_item")
+{ RemoteXmlFeed } = require('lib/feed/remote_xml')
+{ FeedItem } = require('lib/feed_item')
 
 # Represents a RSS feed
 class RssFeed extends RemoteXmlFeed
@@ -7,17 +7,17 @@ class RssFeed extends RemoteXmlFeed
   #
   # @param [String] url The URL of the feed
   constructor : (url) ->
-    super(url, "application/rss+xml")
+    super(url, 'application/rss+xml')
 
   handleDocument : (doc) =>
-    entries = @getXml("/rss/channel/item")
+    entries = @getXml('/rss/channel/item')
     while (entry = entries.iterateNext())?
       new FeedItem({
-        title : @getString("title/text()", entry),
-        link : @getString("link/text()", entry),
-        id : @getString("guid/text()", entry),
-        date : @getString("pubDate/text()", entry), # TODO: parse
-        summary : @getString("description/text()", entry)
+        title : @getString('title/text()', entry),
+        link : @getString('link/text()', entry),
+        id : @getString('guid/text()', entry),
+        date : @getString('pubDate/text()', entry), # TODO: parse
+        summary : @getString('description/text()', entry)
       })
 
 exports.RssFeed = RssFeed
