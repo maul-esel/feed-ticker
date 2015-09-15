@@ -68,8 +68,8 @@ class ViewManager
       onMessage: @onReceiveMessage
     }) unless @frame?
     @toolbar = Toolbar({
-      name: 'rss-ticker-nova-bar',
-      title: 'RSS Ticker Toolbar',
+      name: 'feed-ticker-toolbar',
+      title: 'Feed Ticker Toolbar',
       items: [@frame]
     })
 
