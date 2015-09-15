@@ -3,8 +3,11 @@
 { Panel } = require("sdk/panel")
 tabs = require("sdk/tabs")
 preferences = require("sdk/simple-prefs").prefs
+windowUtils = require('sdk/window/utils')
+{ identify } = require('sdk/ui/id')
 
 { Templater } = require("lib/templater")
+{ ContextMenu, MenuItem, SubMenu } = require('lib/contextmenu')
 
 # Manages the displayed items.
 # Communicates with @see View instances running in the context of the UI's frame.
@@ -63,6 +66,18 @@ class ViewManager
   # Helper method to create the toolbar UI
   # @private
   createUI : =>
+    @menu = new ContextMenu([
+      new MenuItem('menu item 1'),
+      new SubMenu('menu item 2', [
+        new MenuItem('submenu 1 item 1', { checked: true }),
+        new MenuItem('submenu 1 item 2', { disabled: true }),
+        new MenuItem('submenu 1 item 3', { action: => console.log('item 3') })
+      ]),
+      new MenuItem('menu item 3 before separator'),
+      ContextMenu.Separator,
+      new MenuItem('menu item 4 after separator')
+    ]) unless @menu?
+
     @frame = Frame({
       url: './ticker.html'
       onMessage: @onReceiveMessage
@@ -103,6 +118,8 @@ class ViewManager
   # Helper method to handle messages from a view.
   # @private
   onViewReady : (view, origin) =>
+    window = windowUtils.windows().find((window) => windowUtils.getOuterId(window) == view.ownerID)
+    @menu.attach('inner-' + identify(@toolbar), window)
     @update(view, origin)
 
   # Helper method to handle messages from a view.
