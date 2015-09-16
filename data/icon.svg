@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 425 425" version="1.1" width="425" height="425">
   <style type="text/css"><![CDATA[
-    path.rss-arc {
-      fill: none;
-      stroke-width: 75;
-      stroke:#d70000;
-    }
-    path.middle-arc {
-      stroke: #e59200;
-    }
+    path.rss-arc { fill: #d70000; stroke:none; }
+    path.middle-arc { fill: #e59200; }
   ]]></style>
   <g>
-    <path class="rss-arc"            d="M 50 337.5  A  37.5  37.5  0   0     1      87.5 375" />
-    <path class="rss-arc middle-arc" d="M 50 212.5  A 162.5 162.5  0   0     1     212.5 375" />
-    <path class="rss-arc"            d="M 50  87.5  A 287.5 287.5  0   0     1     337.5 375" />
+    <path class="rss-arc"            d="M  50 375 L 125 375 A  75  75 0 0 0 50 300 Z"/>
+    <path class="rss-arc middle-arc" d="M 175 375 L 250 375 A 200 200 0 0 0 50 175 L 50 250 A 125 125 0 0 1 175 375 Z"/>
+    <path class="rss-arc"            d="M 300 375 L 375 375 A 325 325 0 0 0 50  50 L 50 125 A 250 250 0 0 1 300 375 Z"/>
   </g>
 </svg>
