@@ -1,10 +1,10 @@
 { Cu } = require('chrome')
-{ RssFeed } = require('lib/feed/rss')
+{ RemoteXmlFeed } = require('lib/feed/remote_xml')
 
 Cu.import('resource://gre/modules/PlacesUtils.jsm')
 
 class LivemarkSource # implements Source
   getFeeds : () =>
-    new RssFeed(feed.annotationValue) for feed in PlacesUtils.annotations.getAnnotationsWithName('livemark/feedURI')
+    new RemoteXmlFeed(feed.annotationValue) for feed in PlacesUtils.annotations.getAnnotationsWithName('livemark/feedURI')
 
 exports.LivemarkSource = LivemarkSource

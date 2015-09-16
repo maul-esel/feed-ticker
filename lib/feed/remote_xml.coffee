@@ -2,57 +2,36 @@
 Promise = require('sdk/core/promise')
 
 { parse, XPathResult } = require('lib/markup')
+{ RssParser } = require('lib/feed/parser/rss')
 
-# A base class for feeds based on XML documents available on the web
-# @abstract
+# A class for feeds based on XML documents available on the web
 class RemoteXmlFeed # implements Feed
   items : []
+
+  parsers : [new RssParser]
 
   # Creates a new instance of this class.
   #
   # @param [String] url The URL where the XML document can be found
-  # @param [String] mime The MIME type to use when requesting the document
-  constructor : (@url, @mime) ->
+  constructor : (@url) ->
 
   update : =>
     { promise, resolve, reject } = Promise.defer()
-    @current_request = Request({
-      url: @url,
-      headers: {
-        Accept: @mime
-      },
-      onComplete: (response) => @onDocumentReceived(response, resolve, reject)
-    })
-    @current_request.get()
+    Request(
+      url: @url
+      onComplete: (response) =>
+        try
+          @onDocumentReceived(response)
+          resolve()
+        catch error then reject(error)
+    ).get()
     promise
 
   # Callback for requests to the URL
   # @private
-  onDocumentReceived : (response, resolve, reject) =>
-    if 200 <= response.status < 300
-      try
-        @items = @handleDocument(@doc = parse(response.text))
-        resolve()
-      catch error
-        reject()
-    else
-      reject()
-
-  # Helper method for subclasses to navigate the XML using xpath
-  getXml : (xpath, context = null, nsResolver = null, resultType = null) =>
-    @doc.evaluate(xpath, context ? @doc, nsResolver, resultType ? XPathResult.ANY_TYPE, null)
-
-  # Helper method for subclasses to navigate the XML using xpath
-  getString : (xpath, context = null, nsResolver = null) =>
-    @getXml(xpath, context, nsResolver, XPathResult.STRING_TYPE).stringValue
-
-  # Converts the loaded XML document into a list of items.
-  # This method is called internally and must be implemented by subclasses.
-  # @abstract
-  #
-  # @param [Document] doc The loaded XML content
-  #
-  # @return [FeedItem[]] The feed items retrieved from the XML document
-  handleDocument : (doc) =>
+  onDocumentReceived : (response) =>
+    throw "request failed" unless 200 <= response.status < 300
+    doc = parse(response.text)
+    @items = @parsers.find((p) => p.canParse(doc)).parse(doc)
 
 exports.RemoteXmlFeed = RemoteXmlFeed
