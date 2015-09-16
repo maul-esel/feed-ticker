@@ -2,12 +2,18 @@
 { viewFor } = require('sdk/view/core')
 { identify } = require('sdk/ui/id')
 
+{ CommonBase } = require('lib/common_base')
+
 # Base class for everything concerning menus
 # @abstract
-class MenuObjectBase
+class MenuObjectBase extends CommonBase
   # Namespace URI for XUL
   # @private
-  @NS_XUL : 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+  NS_XUL = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+
+  # @property [String] The base ID to be used for this object's representation in XUL documents
+  @property '__xul_id__',
+    get: -> "feedticker__custom-menu__#{@constructor.name}__instance#{@__instance_number__}"
 
   # Creates a XUL element
   #
@@ -15,21 +21,15 @@ class MenuObjectBase
   # @param [String] tag The tag name (no namespace prefix)
   # @param [Object] attributes An object with attributes for the element
   # @param [Element[]] children Child elements to add to the created element
+  # @param [Object] listeners An object with event names and listeners for those events
   #
   # @return [Element] the newly created DOM element
-  createElement : (doc, tag, attributes = {}, children = []) =>
-    element = doc.createElementNS(@constructor.NS_XUL, tag)
+  createElement : (doc, tag, attributes = {}, children = [], listeners = {}) =>
+    element = doc.createElementNS(NS_XUL, tag)
     element.setAttribute(key, value) for key, value of attributes
     element.appendChild(child) for child in children
+    element.addEventListener(event, listener) if listener? for event, listener of listeners
     element
-
-  # Sets supplied options on the instance
-  #
-  # @param [Object] available An object with supported options and their default values
-  # @param [Object] actual An object containing the actually supplied options
-  applyOptions : (available, actual) =>
-    for option, defaultValue of available
-      @[option] = if actual.hasOwnProperty(option) then actual[option] else defaultValue
 
   # Builds the DOM for the menu object
   # @abstract
@@ -37,7 +37,17 @@ class MenuObjectBase
   # @param [Document] doc The DOM document where the object should be built
   #
   # @return [Element] The DOM element representing the menu object
-  build : (doc) =>
+  build : (doc, id_suffix) =>
+
+  # Updates an attribute on DOM elements representing this object in browser windows
+  #
+  # @param [String] attribute The attribute to update
+  # @param [String,Boolean,Number] The value the attribute is set to
+  updateAttribute : (attribute, value) =>
+    for window in browserWindows
+      doc = viewFor(window).document
+      for suffix in @menu.getIdSuffixes()
+        doc.getElementById(@__xul_id__ + suffix)?.setAttribute(attribute, value)
 
 # Base class for menus
 # @abstract
@@ -45,10 +55,22 @@ class MenuBase extends MenuObjectBase
   # The items contained in the menu
   items : []
 
+  # @event hide
+  @event 'hide'
+
+  # Creates a new instance of the class
+  #
+  # @param [Object] options Options for the instance
+  # @param [Array<MenuObjectBase>] items The items of this menu
+  constructor: (@options = {}, items = []) ->
+    @items = []
+    @append(item) for item in items
+
   # Appends an item to the menu
   #
   # @param [MenuItem,SubMenu,MenuSeparator] item The item to append
   append : (item) =>
+    item.menu = this
     @items.push(item)
 
   # Inserts an item into the menu
@@ -56,56 +78,78 @@ class MenuBase extends MenuObjectBase
   # @param [Integer] index The index where the item should be inserted
   # @param [MenuItem,SubMenu,MenuSeparator] item The item to insert
   insert : (index, item) =>
+    item.menu = this
     @items[index...index] = [item]
 
-  build : (doc) =>
-    element = @createElement(doc, 'menupopup', {}, item.build(doc) for item in @items)
-    element.addEventListener('popuphiding', @onHide) if @onHide?
-    element
+  build : (doc, id_suffix) =>
+    @createElement(doc,
+      'menupopup',
+      { id: @__xul_id__ + id_suffix },
+      item.build(doc, id_suffix) for item in @items,
+      { popuphiding: @onHide }
+    )
+
+  getIdSuffixes : =>
+    @menu.getIdSuffixes()
 
 # Represents a simple item in a menu
 class MenuItem extends MenuObjectBase
-  @available_options : { disabled: false, checked: false, image: '', action: undefined }
-
   # Creates a new menu item
   #
-  # @param [String] label The display label for the item
-  # @param [Object] options Further options for the item
+  # @param [Object] options Options for the item
   #
+  # @option options [String] label The display label for the item
   # @option options [Boolean] disabled True to disable the item
   # @option options [Boolean] checked True to display a check mark next to the item
   # @option options [String] image The URI of an icon to display next to the item
-  # @option options [Function] action A callback to be called when the item is selected
-  constructor : (@label, options = {}) ->
-    @applyOptions(@constructor.available_options, options)
+  # @option options [Function] onCommand A callback to be called when the item is selected
+  constructor : (@options = {}) ->
 
-  build : (doc) =>
-    element = @createElement(doc, 'menuitem', { label: @label, disabled: @disabled, checked: @checked, image: @image })
-    element.addEventListener('command', @action) if @action?
-    element
+  @option 'label'
+  @option 'disabled', false
+  @option 'checked', false
+  @option 'image', ''
+
+  @event 'command'
+
+  build : (doc, id_suffix) =>
+    @createElement(doc, 'menuitem', {
+      id: @__xul_id__ + id_suffix,
+      label: @label,
+      disabled: @disabled,
+      checked: @checked,
+      image: @image
+    }, [], { command: @onCommand })
+
+  onOptionChanged : (option, oldValue, newValue) =>
+    switch option
+      when 'disabled' then @updateAttribute(option, newValue)
 
 # Represents a menu item containing a sub menu
 class SubMenu extends MenuBase
   # Creates a new sub menu
   #
-  # @param [String] label The sub menu's display label
+  # @param [Object] options
   # @param [Array] items The items the sub menu will contain
-  constructor : (@label, @items = []) ->
+  constructor : (options = {}, items = []) ->
+    super(options, items)
 
-  build : (doc) =>
-    @createElement(doc, 'menu', { label: @label }, [ super(doc) ])
+  @option 'label'
+  @option 'disabled', false
+  @option 'image', ''
+
+  build : (doc, id_suffix) =>
+    @createElement(doc, 'menu', { id: @__xul_id__ + id_suffix, label: @label }, [ super(doc) ])
 
 # Represents an item separator element
 class MenuSeparator extends MenuObjectBase
-  build : (doc) =>
-    @createElement(doc, 'menuseparator')
+  build : (doc, id_suffix) =>
+    @createElement(doc, 'menuseparator', { id: @__xul_id__ + id_suffix })
 
 # Represents a menu for firefox UI elements
 class Menu extends MenuBase
   # A menu item representing a separator
   @Separator : new MenuSeparator
-
-  @instance_counter : 0
 
   contextMenuTargets: []
   menuButtonTargets: []
@@ -113,10 +157,10 @@ class Menu extends MenuBase
   # Creates a new context menu
   #
   # @param [Array] items The items the menu will contain
-  constructor : (@items = [], options = {}) ->
-    @id = 'feedticker_custom_menu__instance' + @constructor.instance_counter++
+  constructor : (options = {}, items = []) ->
+    super(options, items)
+    @menu = @
     browserWindows.on('open', @onNewWindow)
-    { @onHide } = options
     [@contextMenuTargets, @menuButtonTargets] = [[], []] # needed, otherwise instances share them
 
   # Sets this menu as context menu on a given target
@@ -138,25 +182,6 @@ class Menu extends MenuBase
     @menuButtonTargets.push([target, menuOnly])
     @setButtonMenu(viewFor(window).document, target, menuOnly) for window in browserWindows
 
-  # Updates the menu everywhere it is used. Call this method in order for changes
-  # made to the menu or its items to take effect.
-  update : =>
-    for window in browserWindows
-      doc = viewFor(window).document
-      if @contextMenuTargets.length > 0
-        doc.getElementById(@id + '__context').remove()
-        @createContextMenu(doc)
-
-      for [target, menuOnly] in @menuButtonTargets
-        suffix = '__button__' + target
-        doc.getElementById(target)
-          ?.replaceChild(doc.getElementById(@id + suffix), @build(doc, suffix))
-
-  # @private
-  createContextMenu : (doc) =>
-    unless doc.getElementById(@id + '__context')?
-      doc.getElementById('mainPopupSet').appendChild(@build(doc, '__context'))
-
   # @private
   onNewWindow : (window) =>
     doc = viewFor(window).document
@@ -165,8 +190,9 @@ class Menu extends MenuBase
 
   # @private
   setContextMenu : (doc, target) =>
-    @createContextMenu(doc)
-    doc.getElementById(target)?.setAttribute('context', @id + '__context')
+    unless doc.getElementById(@__xul_id__ + '__context')?
+      doc.getElementById('mainPopupSet').appendChild(@build(doc, '__context'))
+    doc.getElementById(target)?.setAttribute('context', @__xul_id__ + '__context')
 
   # @private
   setButtonMenu : (doc, target, menuOnly) =>
@@ -175,10 +201,11 @@ class Menu extends MenuBase
     button.classList.remove('badged-button')
     button.appendChild(@build(doc, '__button__' + target))
 
-  build : (doc, id_suffix = '') =>
-    element = super(doc)
-    element.setAttribute('id', @id + id_suffix)
-    element
+  # @private
+  getIdSuffixes : =>
+    suffixes = ('__button__' + target for [target, menuOnly] in @menuButtonTargets)
+    suffixes.push('__context') if @contextMenuTargets.length > 0
+    suffixes
 
 exports.Menu = Menu
 exports.MenuItem = MenuItem

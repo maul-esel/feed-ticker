@@ -79,16 +79,16 @@ class ViewManager
       onMessage: @onReceiveMessage
     })
     @itemSpecific = []
-    @menu = new Menu([
-      new MenuItem('Refresh feeds'),
+    @menu = new Menu({ onHide: @resetMenu }, [
+      new MenuItem({ label: 'Refresh feeds' }),
       Menu.Separator,
-      @itemSpecific[...0] = new MenuItem('Open feed in tabs', { disabled: true }),
-      new MenuItem('Open all in tabs'),
+      @itemSpecific[...0] = new MenuItem({ label: 'Open feed in tabs', disabled: true }),
+      new MenuItem({ label: 'Open all in tabs' }),
       Menu.Separator,
-      @itemSpecific[...0] = new MenuItem('Mark as read', { disabled: true }),
-      @itemSpecific[...0] = new MenuItem('Mark feed as read', { disabled: true }),
-      new MenuItem('Mark all as read')
-    ], { onHide: @resetMenu })
+      @itemSpecific[...0] = new MenuItem({ label: 'Mark as read', disabled: true }),
+      @itemSpecific[...0] = new MenuItem({ label: 'Mark feed as read', disabled: true }),
+      new MenuItem({ label: 'Mark all as read' })
+    ])
 
   # Helper method for communication with the @see View instances
   # @private
@@ -126,13 +126,12 @@ class ViewManager
 
   onItemContextMenu : (item) =>
     menuitem.disabled = false for menuitem in @itemSpecific
-    @menu.update()
     @activeItem = item
 
   resetMenu : =>
-    menuitem.disabled = true for menuitem in @itemSpecific
-    @menu.update()
-    @activeItem = undefined
+    if @activeItem?
+      menuitem.disabled = true for menuitem in @itemSpecific
+      @activeItem = undefined
 
   # Helper method to handle messages from a view.
   # @private
