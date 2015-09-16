@@ -1,3 +1,6 @@
+{ browserWindows } = require('sdk/windows')
+{ viewFor } = require('sdk/view/core')
+
 # Base class for everything concerning context menus
 # @abstract
 class MenuObjectBase
