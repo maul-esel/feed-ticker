@@ -59,7 +59,9 @@ class MenuBase extends MenuObjectBase
     @items[index...index] = [item]
 
   build : (doc) =>
-    @createElement(doc, 'menupopup', {}, item.build(doc) for item in @items)
+    element = @createElement(doc, 'menupopup', {}, item.build(doc) for item in @items)
+    element.addEventListener('popuphiding', @onHide) if @onHide?
+    element
 
 # Represents a simple item in a menu
 class MenuItem extends MenuObjectBase
@@ -111,9 +113,10 @@ class Menu extends MenuBase
   # Creates a new context menu
   #
   # @param [Array] items The items the menu will contain
-  constructor : (@items = []) ->
+  constructor : (@items = [], options = {}) ->
     @id = 'feedticker_custom_menu__instance' + @constructor.instance_counter++
     browserWindows.on('open', @onNewWindow)
+    { @onHide } = options
 
   # Sets this menu as context menu on a given target
   #
