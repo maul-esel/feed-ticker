@@ -78,7 +78,7 @@ class MenuItem extends MenuObjectBase
 
   build : (doc) =>
     element = @createElement(doc, 'menuitem', { label: @label, disabled: @disabled, checked: @checked, image: @image })
-    element.addEventListener('click', @action) if @action?
+    element.addEventListener('command', @action) if @action?
     element
 
 # Represents a menu item containing a sub menu
