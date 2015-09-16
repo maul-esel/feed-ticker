@@ -1,7 +1,8 @@
 { browserWindows } = require('sdk/windows')
 { viewFor } = require('sdk/view/core')
+{ identify } = require('sdk/ui/id')
 
-# Base class for everything concerning context menus
+# Base class for everything concerning menus
 # @abstract
 class MenuObjectBase
   # Namespace URI for XUL
@@ -92,58 +93,89 @@ class SubMenu extends MenuBase
   build : (doc) =>
     @createElement(doc, 'menu', { label: @label }, [ super(doc) ])
 
-# Represents a item separator element
+# Represents an item separator element
 class MenuSeparator extends MenuObjectBase
   build : (doc) =>
     @createElement(doc, 'menuseparator')
 
-# Represents a context menu for firefox UI elements
-class ContextMenu extends MenuBase
+# Represents a menu for firefox UI elements
+class Menu extends MenuBase
   # A menu item representing a separator
   @Separator : new MenuSeparator
 
   @instance_counter : 0
 
+  contextMenuTargets: []
+  menuButtonTargets: []
+
   # Creates a new context menu
   #
   # @param [Array] items The items the menu will contain
   constructor : (@items = []) ->
-    @id = 'feedticker_context_menu_custom__instance' + @constructor.instance_counter++
+    @id = 'feedticker_custom_menu__instance' + @constructor.instance_counter++
+    browserWindows.on('open', @onNewWindow)
 
-  # Attaches the context menu to a firefox UI element
+  # Sets this menu as context menu on a given target
   #
-  # @param [String] id The XUL document ID of the element
-  # @param [nsIDOMWindow] window The window where the element resides. Omit or set
-  #   to null to attach the menu to all items with the given ID in all currently opened browser windows.
-  # @param [Boolean] forceUpdate Whether or not the menu should be re-created in windows
-  #   where it already exists. Set to true if you made change to the menu or its items
-  #   and want them to take effect.
-  attach : (id, window = null, forceUpdate = false) =>
-    if window?
-      @create(window.document, forceUpdate)
-      window.document.getElementById(id)?.setAttribute('context', @id)
-    else
-      @attach(id, viewFor(win)) for win in browserWindows
+  # @param [String,Object] target The target for the context menu, either as XUL ID (String)
+  #   or as an object on which @see identify() returns the XUL id.
+  contextMenu : (target) =>
+    target = identify(target) unless typeof(target) == 'string'
+    @contextMenuTargets.push(target)
+    @setContextMenu(viewFor(window).document, target) for window in browserWindows
 
-  # Creates the menu's XUL DOM structure
+  # Sets this menu as button menu on a given button
+  #
+  # @param [String,Object] target The button to use, or its XUL ID
+  # @param [Boolean] menuOnly True to create a menu-only button, false for a button
+  #   that has a separate command action
+  menuButton : (target, menuOnly = true) =>
+    target = identify(target) unless typeof(target) == 'string'
+    @menuButtonTargets.push([target, menuOnly])
+    @setButtonMenu(viewFor(window).document, target, menuOnly) for window in browserWindows
+
+  # Updates the menu everywhere it is used. Call this method in order for changes
+  # made to the menu or its items to take effect.
+  update : =>
+    for window in browserWindows
+      doc = viewFor(window).document
+      if @contextMenuTargets.length > 0
+        doc.getElementById(@id + '__context').remove()
+        @createContextMenu(doc)
+
+      for [target, menuOnly] in @menuButtonTargets
+        suffix = '__button__' + target
+        document.getElementById(target)
+          ?.replaceChild(document.getElementById(@id + suffix), @build(doc, suffix))
+
   # @private
-  #
-  # @param [Document] doc The XUL document where the menu should be created
-  # @param [Boolean] forceUpdate Whether or not the menu should be re-created if it already exists.
-  create : (doc, forceUpdate = false) =>
-    oldMenu = doc.getElementById(@id)
-    if forceUpdate || !oldMenu?
-      [menu, mainPopupSet] = [@build(doc), doc.getElementById('mainPopupSet')]
-      if oldMenu?
-        mainPopupSet.replaceChild(menu, oldMenu)
-      else
-        mainPopupSet.appendChild(menu)
+  createContextMenu : (doc) =>
+    unless doc.getElementById(@id + '__context')?
+      doc.getElementById('mainPopupSet').appendChild(@build(doc, '__context'))
 
-  build : (doc) =>
+  # @private
+  onNewWindow : (window) =>
+    doc = viewFor(window).document
+    @setContextMenu(doc, target) for target in @contextMenuTargets
+    @setButtonMenu(doc, target, menuOnly) for [target, menuOnly] in @menuButtonTargets
+
+  # @private
+  setContextMenu : (doc, target) =>
+    @createContextMenu(doc)
+    doc.getElementById(target)?.setAttribute('context', @id + '__context')
+
+  # @private
+  setButtonMenu : (doc, target, menuOnly) =>
+    button = doc.getElementById(target)
+    button.setAttribute('type', if menuOnly then 'menu' else 'menu-button')
+    button.classList.remove('badged-button')
+    button.appendChild(@build(doc, '__button__' + target))
+
+  build : (doc, id_suffix = '') =>
     element = super(doc)
-    element.setAttribute('id', @id)
+    element.setAttribute('id', @id + id_suffix)
     element
 
-exports.ContextMenu = ContextMenu
+exports.Menu = Menu
 exports.MenuItem = MenuItem
 exports.SubMenu = SubMenu
