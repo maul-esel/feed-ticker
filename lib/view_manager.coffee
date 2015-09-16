@@ -16,6 +16,9 @@ class ViewManager
   # @private
   displayedItems : []
 
+  constructor : ->
+    @createUI()
+
   # Clears the list of displayed items
   # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
   clear : =>
@@ -61,7 +64,12 @@ class ViewManager
       @toolbar = undefined
 
   showToolbar : =>
-    @createUI() unless @toolbar?
+    @toolbar = Toolbar({
+      name: 'feed-ticker-toolbar',
+      title: 'Feed Ticker Toolbar',
+      items: [@frame],
+      onAttach: => @menu.contextMenu('inner-' + identify(@toolbar))
+    }) unless @toolbar?
 
   # Helper method to create the toolbar UI
   # @private
@@ -69,23 +77,18 @@ class ViewManager
     @frame = Frame({
       url: './ticker.html'
       onMessage: @onReceiveMessage
-    }) unless @frame?
+    })
+    @itemSpecific = []
     @menu = new Menu([
       new MenuItem('Refresh feeds'),
       Menu.Separator,
-      new MenuItem('Open feed in tabs'),
+      @itemSpecific[...0] = new MenuItem('Open feed in tabs', { disabled: true }),
       new MenuItem('Open all in tabs'),
       Menu.Separator,
-      new MenuItem('Mark as read'),
-      new MenuItem('Mark feed as read'),
+      @itemSpecific[...0] = new MenuItem('Mark as read', { disabled: true }),
+      @itemSpecific[...0] = new MenuItem('Mark feed as read', { disabled: true }),
       new MenuItem('Mark all as read')
-    ]) unless @menu?
-    @toolbar = Toolbar({
-      name: 'feed-ticker-toolbar',
-      title: 'Feed Ticker Toolbar',
-      items: [@frame],
-      onAttach: => @menu.contextMenu('inner-' + identify(@toolbar))
-    })
+    ], { onHide: @resetMenu })
 
   # Helper method for communication with the @see View instances
   # @private
@@ -113,11 +116,23 @@ class ViewManager
         @onShowDetails(message.data.item, message.data.left)
       when 'HIDE_DETAILS'
         @onHideDetails()
+      when 'CONTEXT_MENU'
+        @onItemContextMenu(message.data)
 
   # Helper method to handle messages from a view.
   # @private
   onViewReady : (view, origin) =>
     @update(view, origin)
+
+  onItemContextMenu : (item) =>
+    menuitem.disabled = false for menuitem in @itemSpecific
+    @menu.update()
+    @activeItem = item
+
+  resetMenu : =>
+    menuitem.disabled = true for menuitem in @itemSpecific
+    @menu.update()
+    @activeItem = undefined
 
   # Helper method to handle messages from a view.
   # @private
