@@ -71,15 +71,14 @@ class ViewManager
       onMessage: @onReceiveMessage
     }) unless @frame?
     @menu = new Menu([
-      new MenuItem('menu item 1'),
-      new SubMenu('menu item 2', [
-        new MenuItem('submenu 1 item 1', { checked: true }),
-        new MenuItem('submenu 1 item 2', { disabled: true }),
-        new MenuItem('submenu 1 item 3', { action: => console.log('item 3') })
-      ]),
-      new MenuItem('menu item 3 before separator'),
+      new MenuItem('Refresh feeds'),
       Menu.Separator,
-      new MenuItem('menu item 4 after separator')
+      new MenuItem('Open feed in tabs'),
+      new MenuItem('Open all in tabs'),
+      Menu.Separator,
+      new MenuItem('Mark as read'),
+      new MenuItem('Mark feed as read'),
+      new MenuItem('Mark all as read')
     ]) unless @menu?
     @toolbar = Toolbar({
       name: 'feed-ticker-toolbar',
