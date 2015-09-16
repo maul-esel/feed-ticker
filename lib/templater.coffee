@@ -1,5 +1,6 @@
-{ Cc, Ci } = require('chrome')
 { data } = require('sdk/self')
+
+{ parse } = require('lib/markup')
 
 htmlToText = require('html-to-text')
 
@@ -25,9 +26,6 @@ class Templater
   # Helper function to escape HTML
   # @private
   @unhtml : (html) =>
-    new Cc['@mozilla.org/xmlextras/domparser;1'](Ci.nsIDOMParser)
-    .parseFromString(html, 'text/html')
-    .documentElement
-    .textContent
+    parse(html, 'text/html').documentElement.textContent
 
 exports.Templater = Templater
