@@ -117,6 +117,7 @@ class Menu extends MenuBase
     @id = 'feedticker_custom_menu__instance' + @constructor.instance_counter++
     browserWindows.on('open', @onNewWindow)
     { @onHide } = options
+    [@contextMenuTargets, @menuButtonTargets] = [[], []] # needed, otherwise instances share them
 
   # Sets this menu as context menu on a given target
   #
@@ -148,8 +149,8 @@ class Menu extends MenuBase
 
       for [target, menuOnly] in @menuButtonTargets
         suffix = '__button__' + target
-        document.getElementById(target)
-          ?.replaceChild(document.getElementById(@id + suffix), @build(doc, suffix))
+        doc.getElementById(target)
+          ?.replaceChild(doc.getElementById(@id + suffix), @build(doc, suffix))
 
   # @private
   createContextMenu : (doc) =>
