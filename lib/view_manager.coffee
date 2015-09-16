@@ -5,6 +5,7 @@ tabs = require('sdk/tabs')
 preferences = require('sdk/simple-prefs').prefs
 windowUtils = require('sdk/window/utils')
 { identify } = require('sdk/ui/id')
+_ = require('sdk/l10n').get
 
 { Templater } = require('lib/templater')
 { Menu, MenuItem, SubMenu } = require('lib/menu')
@@ -66,7 +67,7 @@ class ViewManager
   showToolbar : =>
     @toolbar = Toolbar({
       name: 'feed-ticker-toolbar',
-      title: 'Feed Ticker Toolbar',
+      title: _('toolbar_title'),
       items: [@frame],
       onAttach: => @menu.contextMenu('inner-' + identify(@toolbar))
     }) unless @toolbar?
@@ -80,14 +81,14 @@ class ViewManager
     })
     @itemSpecific = []
     @menu = new Menu({ onHide: @resetMenu }, [
-      new MenuItem({ label: 'Refresh feeds' }),
+      new MenuItem({ label: _('refresh_feeds') }),
       Menu.Separator,
-      @itemSpecific[...0] = new MenuItem({ label: 'Open feed in tabs', disabled: true }),
-      new MenuItem({ label: 'Open all in tabs' }),
+      @itemSpecific[...0] = new MenuItem({ label: _('open_feed_in_tabs'), disabled: true }),
+      new MenuItem({ label: _('open_all_in_tabs') }),
       Menu.Separator,
-      @itemSpecific[...0] = new MenuItem({ label: 'Mark as read', disabled: true }),
-      @itemSpecific[...0] = new MenuItem({ label: 'Mark feed as read', disabled: true }),
-      new MenuItem({ label: 'Mark all as read' })
+      @itemSpecific[...0] = new MenuItem({ label: _('mark_item_read'), disabled: true }),
+      @itemSpecific[...0] = new MenuItem({ label: _('mark_feed_read'), disabled: true }),
+      new MenuItem({ label: _('mark_all_read') })
     ])
 
   # Helper method for communication with the @see View instances
