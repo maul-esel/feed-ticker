@@ -3,7 +3,7 @@
 
 # Represents an item in a feed
 class FeedItem
-  constructor: ({ @title, @link, @id, @date, @summary }) ->
+  constructor: (@feed, { @title, @link, @id, @date, @summary }) ->
     getFavicon(@link).then (url) => @faviconURL = url,
     =>
       url = new URL(@link)
