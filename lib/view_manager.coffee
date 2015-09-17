@@ -1,7 +1,10 @@
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
 { Panel } = require('sdk/panel')
-tabs = require('sdk/tabs')
+
+{ EventTarget } = require('sdk/event/target')
+{ emit } = require('sdk/event/core')
+
 preferences = require('sdk/simple-prefs').prefs
 { identify } = require('sdk/ui/id')
 _ = require('sdk/l10n').get
@@ -11,7 +14,7 @@ _ = require('sdk/l10n').get
 
 # Manages the displayed items.
 # Communicates with @see View instances running in the context of the UI's frame.
-class ViewManager
+class ViewManager extends EventTarget
   # The list of items displayed in the toolbar.
   # @private
   displayedItems : []
@@ -40,10 +43,15 @@ class ViewManager
   #
   # @param [FeedItem] item The item to be removed
   #
-  # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  # @note Unlike @see displayItem, this method triggers an immediate update.
   removeItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
     @displayedItems[index..index] = [] unless index == -1
+
+    if @displayedItems.length == 0 && preferences.hideOnEmpty
+      @hideToolbar()
+    else
+      @send('REMOVE_ITEM', item)
 
   # Updates views with the changes made to the list of displayed items.
   #
@@ -74,20 +82,32 @@ class ViewManager
   # Helper method to create the toolbar UI
   # @private
   createUI : =>
-    @frame = Frame({
+    @frame = Frame(
       url: './ticker.html'
       onMessage: @onReceiveMessage
-    })
+    )
     @itemSpecific = []
-    @menu = new Menu({ onHide: @resetMenu }, [
-      new MenuItem({ label: _('refresh_feeds') }),
-      Menu.Separator,
-      @itemSpecific[...0] = new MenuItem({ label: _('open_feed_in_tabs'), disabled: true }),
-      new MenuItem({ label: _('open_all_in_tabs') }),
-      Menu.Separator,
-      @itemSpecific[...0] = new MenuItem({ label: _('mark_item_read'), disabled: true }),
-      @itemSpecific[...0] = new MenuItem({ label: _('mark_feed_read'), disabled: true }),
-      new MenuItem({ label: _('mark_all_read') })
+    @menu = new Menu(onHide: @resetMenu, [
+      new MenuItem(label: _('refresh_feeds'), onCommand: => emit(this, 'refresh'))
+      Menu.Separator
+      @itemSpecific[...0] = new MenuItem(
+        label: _('open_feed_in_tabs')
+        disabled: true
+        onCommand: => emit(this, 'open', @activeItem.feed)
+      )
+      new MenuItem(label: _('open_all_in_tabs'), onCommand: => emit(this, 'open', null))
+      Menu.Separator
+      @itemSpecific[...0] = new MenuItem(
+        label: _('mark_item_read')
+        disabled: true
+        onCommand: => emit(this, 'mark_read', @activeItem)
+      )
+      @itemSpecific[...0] = new MenuItem(
+        label: _('mark_feed_read')
+        disabled: true
+        onCommand: => emit(this, 'mark_read', @activeItem.feed)
+      )
+      new MenuItem(label: _('mark_all_read'), onCommand: => emit(this, 'mark_read', null))
     ])
 
   # Helper method for communication with the @see View instances
@@ -111,7 +131,7 @@ class ViewManager
       when 'READY'
         @onViewReady(event.source, event.origin)
       when 'NOTIFY_CLICK'
-        @onNotifyClick(message.data)
+        emit(this, 'open', message.data)
       when 'SHOW_DETAILS'
         @onShowDetails(message.data.item, message.data.left)
       when 'HIDE_DETAILS'
@@ -132,16 +152,6 @@ class ViewManager
     if @activeItem?
       menuitem.disabled = true for menuitem in @itemSpecific
       @activeItem = undefined
-
-  # Helper method to handle messages from a view.
-  # @private
-  onNotifyClick : (item) =>
-    @removeItem(item)
-    tabs.open(item.link)
-    if @displayedItems.length == 0 && preferences.hideOnEmpty
-      @hideToolbar()
-    else
-      @send('REMOVE_ITEM', item)
 
   onShowDetails : (item, left) =>
     @details = Panel({
