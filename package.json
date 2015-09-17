@@ -24,8 +24,5 @@
       "type": "integer",
       "value": 900
     }
-  ],
-  "dependencies": {
-    "html-to-text": "^1.3.1"
-  }
+  ]
 }

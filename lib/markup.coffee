@@ -15,3 +15,11 @@ exports.XPathResult =
 exports.parse = (src, mime = 'application/xml') ->
   new Cc['@mozilla.org/xmlextras/domparser;1'](Ci.nsIDOMParser)
     .parseFromString(src, mime)
+
+exports.extract_text = (src) ->
+  Cc['@mozilla.org/parserutils;1'].getService(Ci.nsIParserUtils)
+    .convertToPlainText(
+      src,
+      Ci.nsIDocumentEncoder.OutputFormatted|Ci.nsIDocumentEncoder.OutputEncodeW3CEntities,
+      0
+    )

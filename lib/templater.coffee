@@ -1,8 +1,6 @@
 { data } = require('sdk/self')
 
-{ parse } = require('lib/markup')
-
-htmlToText = require('html-to-text')
+markup = require('lib/markup')
 
 # Crude and basic templating engine.
 class Templater
@@ -20,12 +18,12 @@ class Templater
   @render : (template, context) =>
     data.load(template)
     .replace(/\{\{\{\s*(\w+)\s*\}\}\}/g, (m, property) => context[property])
-    .replace(/\{\{\[\s*(\w+)\s*\]\}\}/g, (m, property) => htmlToText.fromString(context[property]))
+    .replace(/\{\{\[\s*(\w+)\s*\]\}\}/g, (m, property) => markup.extract_text(context[property]))
     .replace(/\{\{\s*(\w+)\s*\}\}/g, (m, property) => @unhtml(context[property]))
 
   # Helper function to escape HTML
   # @private
   @unhtml : (html) =>
-    parse(html, 'text/html').documentElement.textContent
+    markup.parse(html, 'text/html').documentElement.textContent
 
 exports.Templater = Templater
