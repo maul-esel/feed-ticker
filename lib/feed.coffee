@@ -2,7 +2,7 @@
 Promise = require('sdk/core/promise')
 
 xml = require('lib/markup')
-{ RssParser, AtomParser } = require('lib/parser')
+feedparser = require('lib/parser')
 
 ###
 # Represents a feed of items to display
@@ -19,8 +19,6 @@ interface Feed
 # A class for feeds based on XML documents available on the web
 class RemoteXmlFeed # implements Feed
   items : []
-
-  parsers : [new RssParser, new AtomParser]
 
   # Creates a new instance of this class.
   #
@@ -43,7 +41,6 @@ class RemoteXmlFeed # implements Feed
   # @private
   onDocumentReceived : (response) =>
     throw "request failed" unless 200 <= response.status < 300
-    doc = xml.parse(response.text)
-    @items = @parsers.find((p) => p.canParse(doc)).parse(doc)
+    @items = feedparser.parse(xml.parse(response.text))
 
 exports.RemoteXmlFeed = RemoteXmlFeed

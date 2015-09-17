@@ -4,14 +4,6 @@
 ###
 # Parses a XML DOMDocument into FeedItem instances
 interface Parser
-  # Determines if this parser can handle the given XML document.
-  # A complete model check is not necessary, just a quick check for the type of the document
-  #
-  # @param doc [Document] The document to evaluate
-  #
-  # @return [Boolean] True if the parser can parse the document, false otherwise
-  canParse : (doc)
-
   # Parses the given XML document
   #
   # @param doc [Document] The document to parse
@@ -29,11 +21,21 @@ getString = (context, xpath) ->
     .evaluate(xpath, context, nsResolver, XPathResult.STRING_TYPE, null)
     .stringValue
 
+# Parses a XML DOMDocument using the appropriate parser
+#
+# @param doc [Document] The document to parse
+#
+# @return [Array<FeedItem>] The items contained in the document
+parse = (doc) ->
+  if doc.documentElement.tagName == 'rss'
+    new RssParser().parse(doc)
+  else if doc.documentElement.namespaceURI == AtomParser.NS_ATOM
+    new AtomParser().parse(doc)
+  else
+    throw "unsupported document type"
+
 # Implements a parser for RSS documents
 class RssParser # implements Parser
-  canParse : (doc) =>
-    doc.documentElement.tagName == 'rss'
-
   parse : (doc) =>
     entries = doc.evaluate('/rss/channel/item', doc, null, XPathResult.ANY_TYPE, null)
     while (entry = entries.iterateNext())?
@@ -49,9 +51,6 @@ class RssParser # implements Parser
 class AtomParser # implements Parser
   @NS_ATOM = 'http://www.w3.org/2005/Atom'
 
-  canParse: (doc) =>
-    doc.documentElement.namespaceURI == @constructor.NS_ATOM
-
   parse: (doc) =>
     link_rels = ['not(@rel)', '@rel="alternate"', '@rel="self"']
     entries = doc.evaluate('/atom:feed/atom:entry', doc, nsResolver, XPathResult.ANY_TYPE, null)
@@ -64,5 +63,6 @@ class AtomParser # implements Parser
         summary : getString(entry, 'atom:summary/text()')
       )
 
+exports.parse = parse
 exports.RssParser = RssParser
 exports.AtomParser = AtomParser
