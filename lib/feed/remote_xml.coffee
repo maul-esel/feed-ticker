@@ -1,9 +1,8 @@
 { Request } = require('sdk/request')
 Promise = require('sdk/core/promise')
 
-{ parse, XPathResult } = require('lib/markup')
-{ RssParser } = require('lib/feed/parser/rss')
-{ AtomParser } = require('lib/feed/parser/atom')
+xml = require('lib/markup')
+{ RssParser, AtomParser } = require('lib/feed/parser')
 
 # A class for feeds based on XML documents available on the web
 class RemoteXmlFeed # implements Feed
@@ -32,7 +31,7 @@ class RemoteXmlFeed # implements Feed
   # @private
   onDocumentReceived : (response) =>
     throw "request failed" unless 200 <= response.status < 300
-    doc = parse(response.text)
+    doc = xml.parse(response.text)
     @items = @parsers.find((p) => p.canParse(doc)).parse(doc)
 
 exports.RemoteXmlFeed = RemoteXmlFeed
