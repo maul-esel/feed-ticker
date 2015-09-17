@@ -1,0 +1,72 @@
+# UML sequence diagram – view on websequencediagrams.com
+
+title Communication between ViewManager, Views and FeedTicker
+
+participant "A:View"
+participant "B:View"
+
+note right of "B:View"
+Scenario 1:
+The user creates View B
+by opening a new window
+end note
+
+"B:View"->>+ViewManager: READY
+ViewManager->>-"B:View": REPLACE_ITEMS(items)
+
+
+note left of FeedTicker
+Scenario 2:
+The update timer
+is activated
+end note
+
+FeedTicker->+FeedTicker: update()
+FeedTicker->+ViewManager: clear()
+ViewManager-->>-FeedTicker: ""
+loop
+  FeedTicker->+ViewManager: displayItem(item)
+  ViewManager-->>-FeedTicker: ""
+end
+FeedTicker->+ViewManager: update()
+ViewManager->>"B:View": REPLACE_ITEMS(items)
+ViewManager->>"A:View": REPLACE_ITEMS(items)
+ViewManager-->>-FeedTicker: ""
+FeedTicker-->>-FeedTicker: ""
+
+
+
+note right of "B:View"
+Scenario 3a:
+The user hovers over
+an item in View B
+end note
+
+"B:View"->>+ViewManager: SHOW_DETAILS(item)
+ViewManager->+ViewManager: showDetails(item)
+ViewManager-->>-ViewManager: ""
+deactivate ViewManager
+
+
+note right of "B:View"
+Scenario 4:
+The user clicks on
+an entry in View B
+end note
+
+"B:View"->>+ViewManager: NOTIFY_CLICK(item)
+ViewManager->+ViewManager: open(item)
+ViewManager-->>-ViewManager: ""
+ViewManager->>"B:View": REMOVE_ITEM(item)
+ViewManager->>-"A:View": REMOVE_ITEM(item)
+
+note right of "B:View"
+Scenario 3b:
+The user ceases to hover
+over an item in View B
+end note
+
+"B:View"->>+ViewManager: HIDE_DETAILS
+ViewManager->+ViewManager: hideDetails()
+ViewManager-->>-ViewManager: ""
+deactivate ViewManager
