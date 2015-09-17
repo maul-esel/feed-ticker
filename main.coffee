@@ -1,5 +1,5 @@
 { FeedTicker } = require('lib/feed_ticker')
-{ LivemarkSource } = require('lib/source/livemarks')
+{ LivemarkSource } = require('lib/source')
 { HistoryFilter } = require('lib/filter')
 
 m = new FeedTicker(
