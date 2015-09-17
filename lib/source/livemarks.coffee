@@ -1,5 +1,5 @@
 { Cu } = require('chrome')
-{ RemoteXmlFeed } = require('lib/feed/remote_xml')
+{ RemoteXmlFeed } = require('lib/feed')
 
 Cu.import('resource://gre/modules/PlacesUtils.jsm')
 
