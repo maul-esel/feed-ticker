@@ -3,7 +3,6 @@
 { Panel } = require('sdk/panel')
 tabs = require('sdk/tabs')
 preferences = require('sdk/simple-prefs').prefs
-windowUtils = require('sdk/window/utils')
 { identify } = require('sdk/ui/id')
 _ = require('sdk/l10n').get
 
