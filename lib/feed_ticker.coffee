@@ -14,6 +14,7 @@ class FeedTicker
       .on('refresh', @update)
       .on('open', @onViewOpen)
       .on('mark_read', @onMarkRead)
+    source.on('change', @update) for source in @sources
     @update()
     setInterval(@update, preferences.updateTimerInterval * 1000)
 
