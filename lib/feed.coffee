@@ -1,8 +1,8 @@
 { Request } = require('sdk/request')
 Promise = require('sdk/core/promise')
+{ Ci, Cc } = require('chrome')
 
-xml = require('lib/markup')
-feedparser = require('lib/parser')
+{ FeedItem } = require('lib/feed_item')
 { CommonBase } = require('lib/common_base')
 
 ###
@@ -20,8 +20,8 @@ interface Feed
   ID
 ###
 
-# A class for feeds based on XML documents available on the web
-class RemoteXmlFeed extends CommonBase # implements Feed
+# Handles atom and RSS feeds using firefox' internal feed API
+class AtomRssFeed extends CommonBase # implements Feed
   items : []
 
   # Creates a new instance of this class.
@@ -36,18 +36,48 @@ class RemoteXmlFeed extends CommonBase # implements Feed
     { promise, resolve, reject } = Promise.defer()
     Request(
       url: @url
-      onComplete: (response) =>
-        try
-          @onDocumentReceived(response)
-          resolve()
-        catch error then reject(error)
+      onComplete: (response) => @onDocumentReceived(response, resolve, reject)
     ).get()
     promise
 
   # Callback for requests to the URL
   # @private
-  onDocumentReceived : (response) =>
-    throw 'request failed' unless 200 <= response.status < 300
-    @items = feedparser.parse(this.ID, xml.parse(response.text))
+  onDocumentReceived : (response, resolve, reject) =>
+    unless 200 <= response.status < 300
+      reject('request failed')
+      return
 
-exports.RemoteXmlFeed = RemoteXmlFeed
+    try
+      parser = Cc['@mozilla.org/feed-processor;1'].createInstance(Ci.nsIFeedProcessor)
+      parser.listener = {
+        handleResult: (result) =>
+          try
+            @onFeedParsed(result)
+            resolve()
+          catch e then reject(e)
+      }
+      parser.parseFromString(response.text, @constructor.createURI(@url))
+    catch e
+      reject(e)
+
+  # Callback for the feed parsing API
+  # @private
+  onFeedParsed : (result) =>
+    enumerator = result.doc.QueryInterface(Ci.nsIFeed).items.enumerate()
+    @items = while enumerator.hasMoreElements()
+      item = enumerator.getNext().QueryInterface(Ci.nsIFeedEntry)
+      new FeedItem(@ID,
+        title:   item.title.plainText()
+        link:    item.link.spec
+        id:      item.id
+        date:    new Date(item.updated)
+        summary: item.summary.text
+      )
+
+  # Helper method to create nsIURI instances from strings
+  # @private
+  @createURI : (url) =>
+    @ioService ?= Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService)
+    @ioService.newURI(url, null, null)
+
+exports.AtomRssFeed = AtomRssFeed
