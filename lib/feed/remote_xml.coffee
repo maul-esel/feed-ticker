@@ -3,12 +3,13 @@ Promise = require('sdk/core/promise')
 
 { parse, XPathResult } = require('lib/markup')
 { RssParser } = require('lib/feed/parser/rss')
+{ AtomParser } = require('lib/feed/parser/atom')
 
 # A class for feeds based on XML documents available on the web
 class RemoteXmlFeed # implements Feed
   items : []
 
-  parsers : [new RssParser]
+  parsers : [new RssParser, new AtomParser]
 
   # Creates a new instance of this class.
   #
