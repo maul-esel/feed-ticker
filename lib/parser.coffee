@@ -33,7 +33,7 @@ parse = (feed, doc) ->
   else if doc.documentElement.namespaceURI == AtomParser.NS_ATOM
     new AtomParser().parse(feed, doc)
   else
-    throw "unsupported document type"
+    throw 'unsupported document type'
 
 # Implements a parser for RSS documents
 class RssParser # implements Parser

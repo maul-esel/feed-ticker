@@ -47,7 +47,7 @@ class RemoteXmlFeed extends CommonBase # implements Feed
   # Callback for requests to the URL
   # @private
   onDocumentReceived : (response) =>
-    throw "request failed" unless 200 <= response.status < 300
+    throw 'request failed' unless 200 <= response.status < 300
     @items = feedparser.parse(this.ID, xml.parse(response.text))
 
 exports.RemoteXmlFeed = RemoteXmlFeed
