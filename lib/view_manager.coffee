@@ -5,7 +5,7 @@
 { EventTarget } = require('sdk/event/target')
 { emit } = require('sdk/event/core')
 
-preferences = require('sdk/simple-prefs').prefs
+simplePrefs = require('sdk/simple-prefs')
 { identify } = require('sdk/ui/id')
 _ = require('sdk/l10n').get
 
@@ -21,6 +21,13 @@ class ViewManager extends EventTarget
 
   constructor : ->
     @createUI()
+    simplePrefs.on('hideOnEmpty', =>
+      if @displayedItems.length == 0
+        if simplePrefs.prefs.hideOnEmpty
+          @hideToolbar()
+        else
+          @showToolbar()
+    )
 
   # Clears the list of displayed items
   # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
@@ -48,7 +55,7 @@ class ViewManager extends EventTarget
     index = @displayedItems.findIndex((other) => other.id == item.id)
     @displayedItems[index..index] = [] unless index == -1
 
-    if @displayedItems.length == 0 && preferences.hideOnEmpty
+    if @displayedItems.length == 0 && simplePrefs.prefs.hideOnEmpty
       @hideToolbar()
     else
       @send('REMOVE_ITEM', item)
@@ -60,7 +67,7 @@ class ViewManager extends EventTarget
   #
   # @note The parameters are for internal use by this class only.
   update : (view = null, origin = null) =>
-    if @displayedItems.length == 0 && preferences.hideOnEmpty
+    if @displayedItems.length == 0 && simplePrefs.prefs.hideOnEmpty
       @hideToolbar()
     else
       @showToolbar()

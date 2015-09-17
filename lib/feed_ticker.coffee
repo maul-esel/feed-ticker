@@ -1,8 +1,8 @@
 { flatten } = require('sdk/util/array')
 { all } = require('sdk/core/promise')
 { identity, partial } = require('sdk/lang/functional')
-{ setInterval } = require('sdk/timers')
-preferences = require('sdk/simple-prefs').prefs
+{ setInterval, clearInterval } = require('sdk/timers')
+simplePrefs = require('sdk/simple-prefs')
 tabs = require('sdk/tabs')
 
 { ViewManager } = require('lib/view_manager')
@@ -16,7 +16,11 @@ class FeedTicker
       .on('mark_read', @onMarkRead)
     source.on('change', @update) for source in @sources
     @update()
-    setInterval(@update, preferences.updateTimerInterval * 1000)
+    @updateTimer = setInterval(@update, simplePrefs.prefs.updateTimerInterval * 1000)
+    simplePrefs.on('updateTimerInterval', =>
+      clearInterval(@updateTimer)
+      @updateTimer = setInterval(@update, simplePrefs.prefs.updateTimerInterval * 1000)
+    )
 
   update : =>
     feeds = flatten(source.getFeeds() for source in @sources)
