@@ -116,7 +116,7 @@ class window.View
       document.createTextNode(data)
 
   startMoving : =>
-    @moveTimer = setInterval(@move, 1000) unless @moveTimer?
+    @moveTimer = setInterval(@move, 500) unless @moveTimer?
 
   stopMoving : =>
     clearInterval(@moveTimer) if @moveTimer?
@@ -125,7 +125,7 @@ class window.View
   # Callback to move ticker entries
   # @private
   move : =>
-    @offset -= 100
+    @offset -= 25
     entries = document.querySelectorAll('.ticker-item')
 
     reset = Array.from(entries).every((entry) => entry.offsetLeft + entry.offsetWidth < 0)
