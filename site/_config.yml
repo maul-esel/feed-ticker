@@ -15,3 +15,9 @@ defaults:
       path: ""
     values:
       layout: browser
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      css: ['post']
