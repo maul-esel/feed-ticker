@@ -1,3 +1,4 @@
+{ ActionButton } = require('sdk/ui/button/action')
 { Frame } = require('sdk/ui/frame')
 { Toolbar } = require('sdk/ui/toolbar')
 { Panel } = require('sdk/panel')
@@ -116,6 +117,17 @@ class ViewManager extends EventTarget
       )
       new MenuItem(label: _('mark_all_read'), onCommand: => emit(this, 'mark_read', null))
     ])
+
+    btn = ActionButton(
+      id: 'ticker-toolbar-menu-button'
+      label: 'FeedTicker'
+      icon: './icon.png'
+    )
+    new Menu({}, [
+      new MenuItem(label: _('refresh_feeds'), onCommand: => emit(this, 'refresh'))
+      new MenuItem(label: _('open_all_in_tabs'), onCommand: => emit(this, 'open', null))
+      new MenuItem(label: _('mark_all_read'), onCommand: => emit(this, 'mark_read', null))
+    ]).menuButton(btn, true)
 
   # Helper method for communication with the @see View instances
   # @private
