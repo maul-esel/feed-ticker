@@ -13,11 +13,15 @@ _ = require('sdk/l10n').get
 { Templater } = require('lib/templater')
 { Menu, MenuItem, SubMenu } = require('lib/menu')
 
-# Manages the displayed items.
-# Communicates with @see View instances running in the context of the UI's frame.
+###
+Manages the displayed items.
+Communicates with @see View instances running in the context of the UI's frame.
+###
 class ViewManager extends EventTarget
-  # The list of items displayed in the toolbar.
-  # @private
+  ###
+  The list of items displayed in the toolbar.
+  @private
+  ###
   displayedItems : []
 
   constructor : ->
@@ -30,16 +34,20 @@ class ViewManager extends EventTarget
           @showToolbar()
     )
 
-  # Clears the list of displayed items
-  # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  ###
+  Clears the list of displayed items
+  @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  ###
   clear : =>
     @displayedItems = []
 
-  # Adds a new item to be displayed or updates an existing one.
-  #
-  # @param [FeedItem] item The item to be displayed
-  #
-  # @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  ###
+  Adds a new item to be displayed or updates an existing one.
+
+  @param [FeedItem] item The item to be displayed
+
+  @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  ###
   displayItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
     if (index == -1)
@@ -47,11 +55,13 @@ class ViewManager extends EventTarget
     else
       @displayedItems[index] = item
 
-  # Removes an item from the list of displayed items, if it exists there.
-  #
-  # @param [FeedItem] item The item to be removed
-  #
-  # @note Unlike @see displayItem, this method triggers an immediate update.
+  ###
+  Removes an item from the list of displayed items, if it exists there.
+
+  @param [FeedItem] item The item to be removed
+
+  @note Unlike @see displayItem, this method triggers an immediate update.
+  ###
   removeItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
     @displayedItems[index..index] = [] unless index == -1
@@ -61,12 +71,14 @@ class ViewManager extends EventTarget
     else
       @send('REMOVE_ITEM', item)
 
-  # Updates views with the changes made to the list of displayed items.
-  #
-  # @param view The view to update
-  # @param origin The origin fro the view update
-  #
-  # @note The parameters are for internal use by this class only.
+  ###
+  Updates views with the changes made to the list of displayed items.
+
+  @param view The view to update
+  @param origin The origin fro the view update
+
+  @note The parameters are for internal use by this class only.
+  ###
   update : (view = null, origin = null) =>
     if @displayedItems.length == 0 && simplePrefs.prefs.hideOnEmpty
       @hideToolbar()
@@ -87,8 +99,10 @@ class ViewManager extends EventTarget
       onAttach: => @menu.contextMenu('inner-' + identify(@toolbar))
     }) unless @toolbar?
 
-  # Helper method to create the toolbar UI
-  # @private
+  ###
+  Helper method to create the toolbar UI
+  @private
+  ###
   createUI : =>
     @frame = Frame(
       url: './ticker.html'
@@ -129,21 +143,25 @@ class ViewManager extends EventTarget
       new MenuItem(label: _('mark_all_read'), onCommand: => emit(this, 'mark_read', null))
     ]).menuButton(btn, true)
 
-  # Helper method for communication with the @see View instances
-  # @private
-  #
-  # @param [String] command The command to send to the views
-  # @param [String,Number,Object] data Additional data to send
-  # @param view The view to update. If omitted, all views are updated.
-  # @param origin The origin for the update. Used in conjunction with the previous parameter
+  ###
+  Helper method for communication with the @see View instances
+  @private
+
+  @param [String] command The command to send to the views
+  @param [String,Number,Object] data Additional data to send
+  @param view The view to update. If omitted, all views are updated.
+  @param origin The origin for the update. Used in conjunction with the previous parameter
+  ###
   send : (command, data, view = null, origin = null) =>
     (view ? @frame).postMessage(JSON.stringify({
       command: command,
       data: data
     }), origin ? @frame.url)
 
-  # Callback method for communication with the @see View instances
-  # @private
+  ###
+  Callback method for communication with the @see View instances
+  @private
+  ###
   onReceiveMessage : (event) =>
     message = JSON.parse(event.data)
     switch message.command
@@ -158,8 +176,10 @@ class ViewManager extends EventTarget
       when 'CONTEXT_MENU'
         @onItemContextMenu(message.data)
 
-  # Helper method to handle messages from a view.
-  # @private
+  ###
+  Helper method to handle messages from a view.
+  @private
+  ###
   onViewReady : (view, origin) =>
     @update(view, origin)
 

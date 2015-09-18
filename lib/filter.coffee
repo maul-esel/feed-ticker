@@ -12,7 +12,9 @@ interface Filter
   isAccepted : (item)
 ###
 
-# Implements a @see Filter that filters out already visited links.
+###
+Implements a @see Filter that filters out already visited links.
+###
 class HistoryFilter # implements Filter
   isAccepted : (item) =>
     history.isVisited(item.link).then((visited) -> !visited)

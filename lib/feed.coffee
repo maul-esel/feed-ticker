@@ -20,13 +20,17 @@ interface Feed
   ID
 ###
 
-# Handles atom and RSS feeds using firefox' internal feed API
+###
+Handles atom and RSS feeds using firefox' internal feed API
+###
 class AtomRssFeed extends CommonBase # implements Feed
   items : []
 
-  # Creates a new instance of this class.
-  #
-  # @param [String] url The URL where the XML document can be found
+  ###
+  Creates a new instance of this class.
+
+  @param [String] url The URL where the XML document can be found
+  ###
   constructor : (@url) ->
 
   @property 'ID',
@@ -40,8 +44,10 @@ class AtomRssFeed extends CommonBase # implements Feed
     ).get()
     promise
 
-  # Callback for requests to the URL
-  # @private
+  ###
+  Callback for requests to the URL
+  @private
+  ###
   onDocumentReceived : (response, resolve, reject) =>
     unless 200 <= response.status < 300
       reject('request failed')
@@ -60,8 +66,10 @@ class AtomRssFeed extends CommonBase # implements Feed
     catch e
       reject(e)
 
-  # Callback for the feed parsing API
-  # @private
+  ###
+  Callback for the feed parsing API
+  @private
+  ###
   onFeedParsed : (result) =>
     enumerator = result.doc.QueryInterface(Ci.nsIFeed).items.enumerate()
     @items = while enumerator.hasMoreElements()
@@ -74,8 +82,10 @@ class AtomRssFeed extends CommonBase # implements Feed
         summary: item.summary.text
       )
 
-  # Helper method to create nsIURI instances from strings
-  # @private
+  ###
+  Helper method to create nsIURI instances from strings
+  @private
+  ###
   @createURI : (url) =>
     @ioService ?= Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService)
     @ioService.newURI(url, null, null)

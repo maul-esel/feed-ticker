@@ -4,10 +4,12 @@ Promise = require('sdk/core/promise')
 ioService = Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService)
 asyncHistory = Cc['@mozilla.org/browser/history;1'].getService(Ci.mozIAsyncHistory)
 
-# Marks a URL as visited.
-# This method works asynchronously.
-#
-# @param url [String] The URL to insert into browser history
+###
+Marks a URL as visited.
+This method works asynchronously.
+
+@param url [String] The URL to insert into browser history
+###
 markVisited = (url) ->
   asyncHistory.updatePlaces(
     uri: ioService.newURI(url, null, null)
@@ -17,12 +19,14 @@ markVisited = (url) ->
     ]
   )
 
-# Tests if a URL has been visited before
-# This method works asynchronously.
-#
-# @param url [String] The URL to test
-#
-# @return [Promise] A promise that is resolved with the result of the check
+###
+Tests if a URL has been visited before
+This method works asynchronously.
+
+@param url [String] The URL to test
+
+@return [Promise] A promise that is resolved with the result of the check
+###
 isVisited = (url) ->
   { promise, resolve, reject } = Promise.defer()
   asyncHistory.isURIVisited(ioService.newURI(url, null, null),
