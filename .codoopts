@@ -2,6 +2,7 @@
 --private
 --cautious
 --title "FeedTicker Code Documentation"
-.
+./lib
+main.coffee
 -
 LICENSE.md
