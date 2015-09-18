@@ -5,4 +5,5 @@ redcarpet:
     - tables
     - autolink
     - xhtml
+baseurl: "/feed-ticker"
 permalink: "/:year/:month/:day/:title/"

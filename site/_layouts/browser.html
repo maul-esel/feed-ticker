@@ -5,12 +5,12 @@
   <head>
     <title>{{ page.title }}</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="style/browser.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/browser.css"/>
     {% for file in page.css %}
-      <link rel="stylesheet" type="text/css" href="style/{{ file }}.css"/>
+      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ file }}.css"/>
     {% endfor %}
     {% for file in page.js %}
-      <script type="text/javascript" src="script/{{ file }}.js"></script>
+      <script type="text/javascript" src="{{ site.baseurl }}/script/{{ file }}.js"></script>
     {% endfor %}
   </head>
   <body>
