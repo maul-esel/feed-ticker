@@ -21,7 +21,7 @@ jekyll build
 echo -e "\n[BUILDING SITE] copying docs to site..."
 cd ..
 mkdir -p site/_site/docs/codo
-cp -r doc site/_site/docs/codo
+cp -r doc/* site/_site/docs/codo
 rm -rf doc
 
 git checkout gh-pages
