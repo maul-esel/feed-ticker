@@ -13,7 +13,7 @@ class window.View
   ###
   Creates a new instance of the class
 
-  @param [Element] container The container element where feed items are placed
+  @param container [Element] The container element where feed items are placed
   ###
   constructor : (@container) ->
     window.addEventListener('message', @onMessageReceived, false)
@@ -42,7 +42,7 @@ class window.View
   Helper method for replacing the feed items with new content from the manager
   @private
 
-  @param [FeedItem[]] items The new feed content
+  @param items [Array<FeedItem>] The new feed content
   ###
   replaceItems : (items) =>
     old_nodes = (@container.children.item(i) for i in [0...@container.children.length])
@@ -75,8 +75,8 @@ class window.View
   Helper method to update a feed entry with new information
   @private
 
-  @param [Element] node The feed entry to update
-  @param [FeedItem] item The information to be represented by the node
+  @param node [Element] The feed entry to update
+  @param item [FeedItem] The information to be represented by the node
   ###
   updateNode : (node, item) =>
     unless node.childNodes.item(1).wholeText == item.title
@@ -88,7 +88,7 @@ class window.View
   Helper method for removing feed entries as requested by the manager
   @private
 
-  @param [FeedItem] item The item whose entry should be removed
+  @param item [FeedItem] The item whose entry should be removed
   ###
   remove : (item) =>
     document.querySelector(".ticker-item[data-ticker-id='#{item.id}']")?.remove()
@@ -97,7 +97,7 @@ class window.View
   Helper method to create a feed entry for a new item
   @private
 
-  @param [FeedItem] item The item whose information should be included in the entry
+  @param item [FeedItem] The item whose information should be included in the entry
 
   @return [Element] The DOM element representing the item
   ###
@@ -119,7 +119,7 @@ class window.View
   Helper method to create HTML DOM elements from JSON data
   @private
 
-  @param [Object,String] The data to be converted
+  @param data [Object,String] The data to be converted
 
   @return [Node] The DOM node representing the data
   ###

@@ -5,8 +5,8 @@ class CommonBase
   ###
   Defines a new property with getter and setter
 
-  @param [String] name The property's name
-  @param [Object] def An object describing the property.
+  @param name [String] The property's name
+  @param def [Object] An object describing the property.
     See the defineProperty documentation for details
 
   @example
@@ -23,8 +23,8 @@ class CommonBase
   ###
   Defines a new option, a property that is stored in a "options" object
 
-  @param [String] option The option's name
-  @param [String,Number,Boolean,Object,Array] defaultValue The option's default value
+  @param option [String] option The option's name
+  @param defaultValue [String,Number,Boolean,Object,Array] The option's default value
 
   @example
     class MyClass
@@ -41,7 +41,7 @@ class CommonBase
   ###
   Defines a new "on<Event>" option
 
-  @param [String] name The event's name
+  @param name [String] The event's name
   ###
   @event : (name) ->
     @option "on#{name[0].toUpperCase()}#{name[1..]}"

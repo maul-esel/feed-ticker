@@ -44,7 +44,7 @@ class ViewManager extends EventTarget
   ###
   Adds a new item to be displayed or updates an existing one.
 
-  @param [FeedItem] item The item to be displayed
+  @param item [FeedItem] The item to be displayed
 
   @note To have any effect on the UI, @see update() must be called after any calls ot this method.
   ###
@@ -58,7 +58,7 @@ class ViewManager extends EventTarget
   ###
   Removes an item from the list of displayed items, if it exists there.
 
-  @param [FeedItem] item The item to be removed
+  @param item [FeedItem] The item to be removed
 
   @note Unlike @see displayItem, this method triggers an immediate update.
   ###
@@ -147,8 +147,8 @@ class ViewManager extends EventTarget
   Helper method for communication with the @see View instances
   @private
 
-  @param [String] command The command to send to the views
-  @param [String,Number,Object] data Additional data to send
+  @param command [String] The command to send to the views
+  @param data [String,Number,Object] Additional data to send
   @param view The view to update. If omitted, all views are updated.
   @param origin The origin for the update. Used in conjunction with the previous parameter
   ###

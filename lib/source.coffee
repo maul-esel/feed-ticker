@@ -10,7 +10,7 @@ Cu.import('resource://gre/modules/PlacesUtils.jsm')
 interface Source
   # Gets the @see Feed instances for this source
   #
-  # @return [Feed[]] the feeds provided by this source
+  # @return [Array<Feed>] the feeds provided by this source
   getFeeds : ()
 
   # @event change A source can raise this event if its underlying data has (or may have) changed

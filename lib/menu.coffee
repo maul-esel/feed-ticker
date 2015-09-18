@@ -24,11 +24,11 @@ class MenuObjectBase extends CommonBase
   ###
   Creates a XUL element
 
-  @param [Document] doc The document where the element should be created
-  @param [String] tag The tag name (no namespace prefix)
-  @param [Object] attributes An object with attributes for the element
-  @param [Element[]] children Child elements to add to the created element
-  @param [Object] listeners An object with event names and listeners for those events
+  @param doc [Document] The document where the element should be created
+  @param tag [String] The tag name (no namespace prefix)
+  @param attributes [Object] An object with attributes for the element
+  @param children [Array<Element>] Child elements to add to the created element
+  @param listeners [Object] An object with event names and listeners for those events
 
   @return [Element] the newly created DOM element
   ###
@@ -43,7 +43,7 @@ class MenuObjectBase extends CommonBase
   Builds the DOM for the menu object
   @abstract
 
-  @param [Document] doc The DOM document where the object should be built
+  @param doc [Document] The DOM document where the object should be built
 
   @return [Element] The DOM element representing the menu object
   ###
@@ -52,8 +52,8 @@ class MenuObjectBase extends CommonBase
   ###
   Updates an attribute on DOM elements representing this object in browser windows
 
-  @param [String] attribute The attribute to update
-  @param [String,Boolean,Number] The value the attribute is set to
+  @param attribute [String] The attribute to update
+  @param value [String,Boolean,Number] The value the attribute is set to
   ###
   updateAttribute : (attribute, value) =>
     for window in browserWindows
@@ -79,8 +79,8 @@ class MenuBase extends MenuObjectBase
   ###
   Creates a new instance of the class
 
-  @param [Object] options Options for the instance
-  @param [Array<MenuObjectBase>] items The items of this menu
+  @param options [Object] Options for the instance
+  @param items [Array<MenuObjectBase>] The items of this menu
   ###
   constructor: (@options = {}, items = []) ->
     @items = []
@@ -89,7 +89,7 @@ class MenuBase extends MenuObjectBase
   ###
   Appends an item to the menu
 
-  @param [MenuItem,SubMenu,MenuSeparator] item The item to append
+  @param item [MenuItem,SubMenu,MenuSeparator] The item to append
   ###
   append : (item) =>
     item.menu = this
@@ -98,8 +98,8 @@ class MenuBase extends MenuObjectBase
   ###
   Inserts an item into the menu
 
-  @param [Integer] index The index where the item should be inserted
-  @param [MenuItem,SubMenu,MenuSeparator] item The item to insert
+  @param index [Integer] The index where the item should be inserted
+  @param item [MenuItem,SubMenu,MenuSeparator] The item to insert
   ###
   insert : (index, item) =>
     item.menu = this
@@ -123,7 +123,7 @@ class MenuItem extends MenuObjectBase
   ###
   Creates a new menu item
 
-  @param [Object] options Options for the item
+  @param options [Object] Options for the item
 
   @option options [String] label The display label for the item
   @option options [Boolean] disabled True to disable the item
@@ -160,8 +160,8 @@ class SubMenu extends MenuBase
   ###
   Creates a new sub menu
 
-  @param [Object] options
-  @param [Array] items The items the sub menu will contain
+  @param options [Object]
+  @param items [Array] The items the sub menu will contain
   ###
   constructor : (options = {}, items = []) ->
     super(options, items)
@@ -195,7 +195,7 @@ class Menu extends MenuBase
   ###
   Creates a new context menu
 
-  @param [Array] items The items the menu will contain
+  @param items [Array] The items the menu will contain
   ###
   constructor : (options = {}, items = []) ->
     super(options, items)
@@ -206,7 +206,7 @@ class Menu extends MenuBase
   ###
   Sets this menu as context menu on a given target
 
-  @param [String,Object] target The target for the context menu, either as XUL ID (String)
+  @param target [String,Object] The target for the context menu, either as XUL ID (String)
     or as an object on which @see identify() returns the XUL id.
   ###
   contextMenu : (target) =>
@@ -217,8 +217,8 @@ class Menu extends MenuBase
   ###
   Sets this menu as button menu on a given button
 
-  @param [String,Object] target The button to use, or its XUL ID
-  @param [Boolean] menuOnly True to create a menu-only button, false for a button
+  @param target [String,Object] The button to use, or its XUL ID
+  @param menuOnly [Boolean] True to create a menu-only button, false for a button
     that has a separate command action
   ###
   menuButton : (target, menuOnly = true) =>

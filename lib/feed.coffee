@@ -16,7 +16,7 @@ interface Feed
   # @return [Promise] A promise that is resolved once the update is complete, or rejected in case of error.
   update : ()
 
-  # @property ID [String] A unique ID identifying the feed instance globally
+  # @property [String] A unique ID identifying the feed instance globally
   ID
 ###
 
@@ -29,7 +29,7 @@ class AtomRssFeed extends CommonBase # implements Feed
   ###
   Creates a new instance of this class.
 
-  @param [String] url The URL where the XML document can be found
+  @param url [String] The URL where the XML document can be found
   ###
   constructor : (@url) ->
 

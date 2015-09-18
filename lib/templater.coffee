@@ -9,8 +9,8 @@ class Templater
   ###
   Renders a template
 
-  @param [String] template The name of the template file, relative to the data/ directory
-  @param [Object] context The context to use for resolution of template variables
+  @param template [String] The name of the template file, relative to the data/ directory
+  @param context [Object] The context to use for resolution of template variables
 
   @return [String] the rendered template
 
