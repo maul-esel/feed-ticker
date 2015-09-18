@@ -4,8 +4,6 @@ title: FeedTicker
 css: ['index']
 ---
 
-# FeedTicker
-
 * ![](images/icon.svg) [Features]()
 * ![](images/icon.svg) [Get it now!]()
 * ![](images/icon.svg) [Documentation]()
