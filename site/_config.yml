@@ -8,3 +8,10 @@ redcarpet:
     - smart
 baseurl: "/feed-ticker"
 permalink: "/:year/:month/:day/:title/"
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: browser

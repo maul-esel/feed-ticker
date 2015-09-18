@@ -1,5 +1,4 @@
 ---
-layout: browser
 title: FeedTicker
 css: ['index']
 ---
