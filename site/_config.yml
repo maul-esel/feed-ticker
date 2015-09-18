@@ -5,3 +5,4 @@ redcarpet:
     - tables
     - autolink
     - xhtml
+permalink: "/:year/:month/:day/:title/"
