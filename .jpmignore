@@ -1,3 +1,15 @@
+# file types
 *.coffee
 *.xpi
+
+# directories
+.git
 site
+concept
+scripts
+test
+
+# dotfiles
+.gitignore
+.jpmignore
+.codoopts
