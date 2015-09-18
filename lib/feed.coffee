@@ -4,6 +4,7 @@ Promise = require('sdk/core/promise')
 
 { FeedItem } = require('lib/feed_item')
 { CommonBase } = require('lib/common_base')
+markup = require('lib/markup')
 
 ###
 # Represents a feed of items to display
@@ -75,7 +76,7 @@ class AtomRssFeed extends CommonBase # implements Feed
     @items = while enumerator.hasMoreElements()
       item = enumerator.getNext().QueryInterface(Ci.nsIFeedEntry)
       new FeedItem(@ID,
-        title:   item.title.plainText()
+        title:   markup.extract_text(item.title.text)
         link:    item.link.spec
         id:      item.id
         date:    new Date(item.updated)

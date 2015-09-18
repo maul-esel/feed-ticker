@@ -15,21 +15,12 @@ class Templater
   @return [String] the rendered template
 
   @note The template format is as follows:
-    {{ my_variable }} for variable replacement, including HTML escaping
-    {{{ my_html }}} for replacement without HTML escaping
+    {{ my_variable }} for variable replacement
     {{[ my_html ]}} will be replaced with plaintext extracted from my_html
   ###
   @render : (template, context) =>
     data.load(template)
-    .replace(/\{\{\{\s*(\w+)\s*\}\}\}/g, (m, property) => context[property])
     .replace(/\{\{\[\s*(\w+)\s*\]\}\}/g, (m, property) => markup.extract_text(context[property]))
-    .replace(/\{\{\s*(\w+)\s*\}\}/g, (m, property) => @unhtml(context[property]))
-
-  ###
-  Helper function to escape HTML
-  @private
-  ###
-  @unhtml : (html) =>
-    markup.parse(html, 'text/html').documentElement.textContent
+    .replace(/\{\{\s*(\w+)\s*\}\}/g, (m, property) => context[property])
 
 exports.Templater = Templater
