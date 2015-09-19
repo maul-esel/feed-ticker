@@ -2,7 +2,7 @@
   "title": "FeedTicker",
   "name": "feed-ticker",
   "version": "0.0.1-alpha.1",
-  "description": "FeedTicker displays RSS feeds in a toolbar",
+  "description": "FeedTicker displays your RSS  and Atom feeds in a moving \"ticker\" toolbar",
   "main": "main.js",
   "author": "Dominik Klumpp",
   "engines": {
