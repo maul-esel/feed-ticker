@@ -72,16 +72,23 @@
 
         <g><!-- navigation toolbar -->
           <g><!-- URL field -->
-            <rect style="fill:#ffffff;stroke:#aaaaaa;stroke-width:1" width="1274" height="41.5" x="75.5" y="90"/>
-            <text style="font-family:Courier;font-size:25px" width="546.16058" height="24.147658" x="100" y="117">
+            <rect style="fill:#ffffff;stroke:#aaaaaa;stroke-width:1" width="1244" height="41.5" x="105.5" y="90"/>
+            <text style="font-family:Courier;font-size:25px" width="516.16058" height="24.147658" x="130" y="117">
               https://maul-esel.github.io/feed-ticker/
             </text>
           </g>
 
           <g><!-- back button -->
-            <circle style="fill:#c8c8c8;stroke:#aaaaaa;stroke-width:1" cx="65" cy="112" r="24.5"/>
-            <path style="fill:none;stroke:#777777;stroke-width:5" d="M 81.25,112 50,112 M 66.25,128.25 50,112 66.25,95.75"/>
+            <a xlink:href="javascript:history.back();">
+              <circle style="fill:#c8c8c8;stroke:#aaaaaa;stroke-width:1" cx="95" cy="112" r="24.5"/>
+              <path style="fill:none;stroke:#777777;stroke-width:5" d="M 111.25,112 80,112 M 96.25,128.25 80,112 96.25,95.75"/>
+            </a>
           </g>
+
+          <!-- home button -->
+          <a xlink:href="{{ site.baseurl }}/">
+            <path style="fill:#777777" d="M 27.5,126.5 36.25,126.5 36.25,115 43.75,115 43.75,126.5 52.5,126.5 52.5,110 60,110 40,95 20,110 27.5,110 Z"/>
+          </a>
 
           <!-- feedticker button -->
           <use xlink:href="#feedticker-icon" transform="translate(1365,92)scale(0.1)"/>
