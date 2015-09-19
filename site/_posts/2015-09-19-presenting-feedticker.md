@@ -37,7 +37,7 @@ email me at `feedticker [at] online [dot] de`. I'd be happy about any feedback.
 [2]: http://www.chrisfinke.com/
 [3]: http://www.chrisfinke.com/2015/08/21/my-future-of-developing-firefox-add-ons/
 [4]: {{ site.baseurl }}{% post_url 2015-09-19-about-myself %}
-[5]: https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1 "Download .xpi"
+[5]: https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1 "Download FeedTicker"
 [6]: https://github.com/maul-esel/feed-ticker/blob/master/LICENSE.md
 [7]: https://github.com/maul-esel/feed-ticker
 [8]: https://github.com/maul-esel/feed-ticker/issues
