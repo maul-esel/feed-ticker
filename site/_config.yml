@@ -21,3 +21,14 @@ defaults:
       type: "posts"
     values:
       css: ['post']
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      permalink: /:path/:basename/
+  -
+    scope:
+      path: "style"
+    values:
+      permalink: /:path/:basename:output_ext

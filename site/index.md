@@ -1,6 +1,7 @@
 ---
 title: FeedTicker
 css: ['index']
+permalink: index.html
 ---
 
 * ![](images/icon.svg) [Features]()
