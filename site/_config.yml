@@ -33,4 +33,4 @@ defaults:
     values:
       permalink: /:path/:basename:output_ext
 
-current_release_download: "https://github.com/maul-esel/feed-ticker/tag/v0.0.1-alpha.1"
+current_release_download: "https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1"
