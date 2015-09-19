@@ -1,0 +1,64 @@
+html {
+  background: #fff url("../images/icon.svg") left bottom/auto 2.5% repeat padding-box padding-box fixed; }
+
+body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin: 0; }
+
+#browser {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 95%;
+  margin: auto; }
+
+@media (orientation: portrait) {
+  #browser {
+    width: 95%;
+    height: auto; } }
+#ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  white-space: nowrap; }
+
+a.ticker-item {
+  font-family: sans-serif;
+  color: #222;
+  text-decoration: none;
+  outline: 0;
+  display: inline-block;
+  padding: 0.75%;
+  padding-left: 3%;
+  background: #BBB url("../images/icon.svg") 2% center/auto 60% no-repeat;
+  position: relative;
+  left: 105%;
+  animation: ticker 60s linear 3s infinite; }
+
+#ticker:hover a.ticker-item {
+  animation-play-state: paused; }
+
+@keyframes ticker {
+  from {
+    left: 105%; }
+  to {
+    left: -200%; } }
+#document {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  font-family: Helvetica, sans-serif;
+  padding: 0 5%;
+  overflow: auto; }

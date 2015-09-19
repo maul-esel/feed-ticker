@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Presenting FeedTicker</title>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/feed-ticker/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/feed-ticker/style/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/feed-ticker/style/browser.css"/>
+    
+      <link rel="stylesheet" type="text/css" href="/feed-ticker/style/post.css"/>
+    
+    
+  </head>
+  <body>
+    <svg id="browser" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1500 1000">
+      <title>FeedTicker</title>
+      <defs>
+        <g id="feedticker-icon">
+          <style type="text/css"><![CDATA[
+            path.rss-arc { fill: #d70000; stroke:none; }
+            path.middle-arc { fill: #e59200; }
+          ]]></style>
+          <path class="rss-arc"            d="M  50 375 L 125 375 A  75  75 0 0 0 50 300 Z"/>
+          <path class="rss-arc middle-arc" d="M 175 375 L 250 375 A 200 200 0 0 0 50 175 L 50 250 A 125 125 0 0 1 175 375 Z"/>
+          <path class="rss-arc"            d="M 300 375 L 375 375 A 325 325 0 0 0 50  50 L 50 125 A 250 250 0 0 1 300 375 Z"/>
+        </g>
+      </defs>
+
+      <!-- window background -->
+      <rect fill="blue" x="0" y="0" width="1500" height="1000"/>
+
+      <!-- window title -->
+      <text fill="white" x="20" y="25" style="font-weight: bold;font-size:18.75px;font-family:sans-serif">
+        Mozilla Firefox &mdash; FeedTicker
+      </text>
+
+      <!-- window close/max/min buttons -->
+      <g>
+        <defs>
+          <rect id="window-button-template" y="0" width="70" height="45" style="fill:#5f5fff;stroke:none"/>
+        </defs>
+        <g><!-- minimize -->
+          <use xlink:href="#window-button-template" x="1262.5"/>
+          <rect style="fill:#ffffff;stroke:none" width="45" height="5" x="1275" y="30"/>
+        </g>
+        <g><!-- maximize -->
+          <use xlink:href="#window-button-template" x="1335"/>
+          <rect style="fill:none;stroke:#ffffff;stroke-width:5" width="45" height="22.5" x="1347.5" y="10"/>
+        </g>
+        <g><!-- close -->
+          <rect x="1407.5" y="0" width="80" height="45" style="fill:#db0000"/>
+          <path style="stroke:white;stroke-width:3.5" d="M 1435 10 L 1457.5 35 M 1435 35 L 1457.5 10"/>
+        </g>
+      </g>
+
+      <!-- browser chrome -->
+      <g>
+        <!-- background and tab -->
+        <path style="fill:#d3d3d3"
+           d="m 10,197 0,-110 C 10,80 8,82 40,80 59,79 48.5,35 73.3,35 L 350,35 c 17.5,0.7 12.9,50 30,45 L 1460,80 c 29.6,0.5 30,0.4 30,25 l 0,92 z"/>
+
+        <g><!-- tab header -->
+          <use xlink:href="#feedticker-icon" transform="translate(65, 40)scale(0.075)"/>
+          <text style="font-size:22.5px;font-family:sans-serif" width="150" height="35" x="100" y="67.5">
+            FeedTicker
+          </text>
+        </g>
+
+        <g><!-- navigation toolbar -->
+          <g><!-- URL field -->
+            <rect style="fill:#ffffff;stroke:#aaaaaa;stroke-width:1" width="1244" height="41.5" x="105.5" y="90"/>
+            <text style="font-family:Courier;font-size:25px" width="516.16058" height="24.147658" x="130" y="117">
+              https://maul-esel.github.io/feed-ticker/
+            </text>
+          </g>
+
+          <g><!-- back button -->
+            <a xlink:href="javascript:history.back();">
+              <circle style="fill:#c8c8c8;stroke:#aaaaaa;stroke-width:1" cx="95" cy="112" r="24.5"/>
+              <path style="fill:none;stroke:#777777;stroke-width:5" d="M 111.25,112 80,112 M 96.25,128.25 80,112 96.25,95.75"/>
+            </a>
+          </g>
+
+          <!-- home button -->
+          <a xlink:href="/feed-ticker/">
+            <path style="fill:#777777" d="M 27.5,126.5 36.25,126.5 36.25,115 43.75,115 43.75,126.5 52.5,126.5 52.5,110 60,110 40,95 20,110 27.5,110 Z"/>
+          </a>
+
+          <!-- feedticker button -->
+          <a xlink:href="/feed-ticker/news/">
+            <use xlink:href="#feedticker-icon" transform="translate(1365,92)scale(0.1)"/>
+          </a>
+
+          <g><!-- hamburger icon -->
+            <defs>
+              <rect id="hamburger-layer" style="fill:#666666" width="45" height="7.5" x="1425"/>
+            </defs>
+            <use xlink:href="#hamburger-layer" y="92"/>
+            <use xlink:href="#hamburger-layer" y="105.75"/>
+            <use xlink:href="#hamburger-layer" y="119.5"/>
+          </g>
+        </g>
+
+        <!-- ticker items -->
+        <foreignObject x="10" y="142" width="1475" height="50" style="font-size:22.5px">
+          <div id="ticker" xmlns="http://www.w3.org/1999/xhtml">
+            
+              <a class="ticker-item" href="/feed-ticker/2015/09/19/presenting-feedticker/" target="_blank">Presenting FeedTicker</a>
+            
+              <a class="ticker-item" href="/feed-ticker/2015/09/19/about-myself/" target="_blank">About Myself</a>
+            
+            <a class="ticker-item" href="/feed-ticker/features/" target="_blank">FeedTicker's Amazing Features</a>
+            <a class="ticker-item" href="https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1" target="_blank">Get FeedTicker Now!</a>
+            <a class="ticker-item" href="/feed-ticker/docs/codo/" target="_blank">FeedTicker Code Documentation</a>
+          </div>
+        </foreignObject>
+      </g>
+
+      <!-- document -->
+      <foreignObject x="10" y="197" height="797" width="1480" style="font-size:20px">
+        <div id="document" xmlns="http://www.w3.org/1999/xhtml">
+          <h1>Presenting FeedTicker</h1>
+          <p>Allow me to present <strong>FeedTicker</strong>, a new addon for the Firefox browser. The idea
+is simple: display web feeds (RSS and Atom) in a moving &ldquo;ticker&rdquo; toolbar &ndash; the design
+of this website should you give an idea of what that looks like. The idea is also
+not mine: FeedTicker is closely modeled after the great <a href="https://addons.mozilla.org/en/firefox/addon/rss-ticker/" title="RSS Ticker on addons.mozilla.org">RSS Ticker</a> addon by
+<a href="http://www.chrisfinke.com/">Christopher Finke</a>.</p>
+
+<p>Unfortunately, recent changes in Firefox have broken that addon and Christopher
+<a href="http://www.chrisfinke.com/2015/08/21/my-future-of-developing-firefox-add-ons/">announced he will no longer develop it</a>. Since I (<a href="/feed-ticker/2015/09/19/about-myself/">who&rsquo;s that?</a>) relied
+heavily on his great work, and I had some free time on my hands, I decided to delve
+into the depths of Firefox addon development and try to develop a similar addon.</p>
+
+<p>FeedTicker is provided free of charge, no need to register or anything. I hope that
+others who also relied on RSS Ticker as well as new users will benefit from it.
+If you are interested in trying it out, you can download an early version here:</p>
+
+<p><a href="https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1" title="Download FeedTicker">FeedTicker v0.0.1-alpha.1</a></p>
+
+<p><strong><em>Please note: This version is an early prerelease. It may (and probably will)
+still have quite a few bugs and not always work correctly. Also, FeedTicker is
+licensed under <a href="https://github.com/maul-esel/feed-ticker/blob/master/LICENSE.md">the MIT license</a>, therefore its warranty disclaimer applies.</em></strong></p>
+
+<p>FeedTicker was written by myself from scratch, it does not use any code from the
+original RSS Ticker addon. Unlike RSS Ticker, it is based on the Firefox Addon SDK
+and not on the deprecated APIs that RSS Ticker uses. Therefore, it should be supported
+by Firefox for the foreseeable future.</p>
+
+<p>If you&rsquo;d like to see the code, or contribute in any way, please have a look at the
+<a href="https://github.com/maul-esel/feed-ticker">github repository</a>. Also, if you encounter any issues with the addon, please
+let me know by <a href="https://github.com/maul-esel/feed-ticker/issues">opening an issue on github</a>. If you do not have a github account,
+email me at <code>feedticker [at] online [dot] de</code>. I&rsquo;d be happy about any feedback.</p>
+
+        </div>
+      </foreignObject>
+    </svg>
+  </body>
+</html>

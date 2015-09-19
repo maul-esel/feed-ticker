@@ -1,19 +1,15 @@
----
----
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ page.title }}</title>
+    <title>FeedTicker</title>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/default.css"/>
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/browser.css"/>
-    {% for file in page.css %}
-      <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style/{{ file }}.css"/>
-    {% endfor %}
-    {% for file in page.js %}
-      <script type="text/javascript" src="{{ site.baseurl }}/script/{{ file }}.js"></script>
-    {% endfor %}
+    <link rel="shortcut icon" type="image/x-icon" href="/feed-ticker/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/feed-ticker/style/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/feed-ticker/style/browser.css"/>
+    
+      <link rel="stylesheet" type="text/css" href="/feed-ticker/style/index.css"/>
+    
+    
   </head>
   <body>
     <svg id="browser" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1500 1000">
@@ -86,12 +82,12 @@
           </g>
 
           <!-- home button -->
-          <a xlink:href="{{ site.baseurl }}/">
+          <a xlink:href="/feed-ticker/">
             <path style="fill:#777777" d="M 27.5,126.5 36.25,126.5 36.25,115 43.75,115 43.75,126.5 52.5,126.5 52.5,110 60,110 40,95 20,110 27.5,110 Z"/>
           </a>
 
           <!-- feedticker button -->
-          <a xlink:href="{{ site.baseurl }}/news/">
+          <a xlink:href="/feed-ticker/news/">
             <use xlink:href="#feedticker-icon" transform="translate(1365,92)scale(0.1)"/>
           </a>
 
@@ -108,12 +104,14 @@
         <!-- ticker items -->
         <foreignObject x="10" y="142" width="1475" height="50" style="font-size:22.5px">
           <div id="ticker" xmlns="http://www.w3.org/1999/xhtml">
-            {% for post in site.posts %}
-              <a class="ticker-item" href="{{ site.baseurl }}{{ post.url }}" target="_blank">{{ post.title }}</a>
-            {% endfor %}
-            <a class="ticker-item" href="{{ site.baseurl }}/features/" target="_blank">FeedTicker's Amazing Features</a>
-            <a class="ticker-item" href="{{ site.current_release_download }}" target="_blank">Get FeedTicker Now!</a>
-            <a class="ticker-item" href="{{ site.baseurl }}/docs/codo/" target="_blank">FeedTicker Code Documentation</a>
+            
+              <a class="ticker-item" href="/feed-ticker/2015/09/19/presenting-feedticker/" target="_blank">Presenting FeedTicker</a>
+            
+              <a class="ticker-item" href="/feed-ticker/2015/09/19/about-myself/" target="_blank">About Myself</a>
+            
+            <a class="ticker-item" href="/feed-ticker/features/" target="_blank">FeedTicker's Amazing Features</a>
+            <a class="ticker-item" href="https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1" target="_blank">Get FeedTicker Now!</a>
+            <a class="ticker-item" href="/feed-ticker/docs/codo/" target="_blank">FeedTicker Code Documentation</a>
           </div>
         </foreignObject>
       </g>
@@ -121,8 +119,18 @@
       <!-- document -->
       <foreignObject x="10" y="197" height="797" width="1480" style="font-size:20px">
         <div id="document" xmlns="http://www.w3.org/1999/xhtml">
-          <h1>{{ page.title }}</h1>
-          {{ content }}
+          <h1>FeedTicker</h1>
+          <p>Want to stay up-to-date on the news, follow a blog or get the newest issues of
+your favorite web comic? No problem for FeedTicker! FeedTicker is a Firefox addon
+that displays your RSS or Atom feeds in a moving toolbar, as seen above. As soon
+as there&rsquo;s something new, you&rsquo;ll know.</p>
+
+<ul>
+<li><img src="images/icon.svg" alt=""/> <a href="/feed-ticker/features/">Features</a></li>
+<li><img src="images/icon.svg" alt=""/> <a href="https://github.com/maul-esel/feed-ticker/releases/tag/v0.0.1-alpha.1">Get it now!</a></li>
+<li><img src="images/icon.svg" alt=""/> <a href="/feed-ticker/documentation/">Documentation</a></li>
+</ul>
+
         </div>
       </foreignObject>
     </svg>
