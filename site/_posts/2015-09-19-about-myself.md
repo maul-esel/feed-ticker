@@ -2,7 +2,7 @@
 title: About Myself
 ---
 
-## Hi there!
+Hi there!
 
 Just wanted to give you some idea as to who's behind FeedTicker: I am.
 
