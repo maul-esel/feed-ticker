@@ -1,0 +1,38 @@
+---
+---
+
+$link-color: #d70000
+$link-color-hover: #e59200
+
+a
+  color: $link-color
+  text-decoration: none
+  &:hover
+    color: $link-color-hover
+
+h1
+  text-align: center
+
+a[href^="https://github.com/maul-esel/feed-ticker/releases/tag/"][title="Download FeedTicker"]
+  display: block
+  width: 500px
+  margin: auto
+  padding: 15px
+  color: white
+  text-align: center
+  font-weight: bold
+  border-radius: 10px
+  background-color: $link-color
+  &:hover
+    background-color: $link-color-hover
+
+a[href^="https://github.com/maul-esel/feed-ticker/releases/tag/"][title="Download FeedTicker"]:before
+  content: ''
+  display: inline-block
+  vertical-align: middle
+  width: 25px
+  height: 25px
+  margin-right: 5px
+  border-radius: 100%
+  border: solid white 3px
+  background: white url('../images/icon.svg') center / contain

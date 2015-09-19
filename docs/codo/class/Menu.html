@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>FeedTicker Code Documentation</title>
+  <script src='../javascript/application.js'></script>
+  <script src='../javascript/search.js'></script>
+  <link rel='stylesheet' href='../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../extra/README.md.html' title='FeedTicker'>
+      FeedTicker
+    </a>
+    &raquo;
+    <a href='../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>Menu</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class:
+        Menu
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>lib&#47;menu.coffee</td>
+        </tr>
+        <tr>
+          <td>Inherits:</td>
+          <td>
+            <a href='../class/MenuBase.html'>MenuBase</a>
+          </td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <p>Represents a menu for firefox UI elements</p>
+</div>
+<div class='tags'>
+</div>
+      <h2>Property Summary</h2>
+      <h3 class='inherited'>
+        Properties inherited from
+        <a href='../class/MenuBase.html'>MenuBase</a>
+      </h3>
+      <p class='inherited'>
+        <a href='[object Object]'>__xul_id__</a>
+        <a href='[object Object]'>__instance_number__</a>
+      </p>
+      <h2>Variables Summary</h2>
+      <dl class='constants'>
+  <dt id='contextMenuTargets-variable'>
+    contextMenuTargets
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>[]</code></pre>
+    
+  </dd>
+  <dt id='menuButtonTargets-variable'>
+    menuButtonTargets
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>[]</code></pre>
+    
+  </dd>
+</dl>
+      <h3 class='inherited'>
+        Variable inherited from
+        <a href='../class/MenuBase.html'>MenuBase</a>
+      </h3>
+      <p class='inherited'>
+        <a href='../class/MenuBase.html#items-variable'>items</a>
+        <a href='../class/CommonBase.html#__instance_counter__-variable'>__instance_counter__</a>
+      </p>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#contextMenu-dynamic'>
+        #
+(void)
+<b>contextMenu</b><span>(target)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Sets this menu as context menu on a given target 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#menuButton-dynamic'>
+        #
+(void)
+<b>menuButton</b><span>(target, menuOnly = true)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Sets this menu as button menu on a given button 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#onNewWindow-dynamic'>
+        #
+(void)
+<b>onNewWindow</b><span>(window)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#setContextMenu-dynamic'>
+        #
+(void)
+<b>setContextMenu</b><span>(doc, target)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#setButtonMenu-dynamic'>
+        #
+(void)
+<b>setButtonMenu</b><span>(doc, target, menuOnly)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getIdSuffixes-dynamic'>
+        #
+(void)
+<b>getIdSuffixes</b><span>()</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+    </span>
+  </li>
+</ul>
+      <h2>
+        <small>Inherited Method Summary</small>
+        <h3 class='inherited'>
+          Methods inherited from
+          <a href='../class/MenuBase.html'>MenuBase</a>
+        </h3>
+        <p class='inherited'>
+          <a href='../class/MenuBase.html#append-dynamic'>#append</a>
+          <a href='../class/MenuBase.html#insert-dynamic'>#insert</a>
+          <a href='../class/MenuBase.html#build-dynamic'>#build</a>
+          <a href='../class/MenuBase.html#getIdSuffixes-dynamic'>#getIdSuffixes</a>
+          <a href='../class/MenuObjectBase.html#createElement-dynamic'>#createElement</a>
+          <a href='../class/MenuObjectBase.html#updateAttribute-dynamic'>#updateAttribute</a>
+          <a href='../class/CommonBase.html#property-static'>.property</a>
+          <a href='../class/CommonBase.html#option-static'>.option</a>
+          <a href='../class/CommonBase.html#event-static'>.event</a>
+        </p>
+      </h2>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-dynamic'>
+      #
+(void)
+<b>constructor</b><span>(options = {}, items = [])</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Creates a new context menu</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>items</span>
+      <span class='type'>
+        (
+          <tt>Array</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>The items the menu will contain </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='contextMenu-dynamic'>
+      #
+(void)
+<b>contextMenu</b><span>(target)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Sets this menu as context menu on a given target</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>target</span>
+      <span class='type'>
+        (
+          <tt>String,Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>The target for the context menu, either as XUL ID (String) or as an object on which @see identify() returns the XUL id. </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='menuButton-dynamic'>
+      #
+(void)
+<b>menuButton</b><span>(target, menuOnly = true)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Sets this menu as button menu on a given button</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>target</span>
+      <span class='type'>
+        (
+          <tt>String,Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>The button to use, or its XUL ID </span>
+    </li>
+    <li>
+      <span class='name'>menuOnly</span>
+      <span class='type'>
+        (
+          <tt>Boolean</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>True to create a menu-only button, false for a button that has a separate command action </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='onNewWindow-dynamic'>
+      #
+(void)
+<b>onNewWindow</b><span>(window)</span>
+      <span class='bound note'>Bound</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='setContextMenu-dynamic'>
+      #
+(void)
+<b>setContextMenu</b><span>(doc, target)</span>
+      <span class='bound note'>Bound</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='setButtonMenu-dynamic'>
+      #
+(void)
+<b>setButtonMenu</b><span>(doc, target, menuOnly)</span>
+      <span class='bound note'>Bound</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getIdSuffixes-dynamic'>
+      #
+(void)
+<b>getIdSuffixes</b><span>()</span>
+      <span class='bound note'>Bound</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='tags'>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  September 19, 15 16:08:31 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.11
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>
