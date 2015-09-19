@@ -9,22 +9,33 @@ git checkout master
 
 echo -e "\n[BUILDING SITE] installing tools..."
 npm install codo
+gem install jekyll
 
 echo -e "\n[BUILDING SITE] generating code documentation..."
-rm -rf docs
 node_modules/codo/bin/codo
 
-echo -e "\n[BUILDING SITE] deleting everything but site and docs..."
+cd site
+echo -e "\n[BUILDING SITE] building site..."
+jekyll build
+
+echo -e "\n[BUILDING SITE] copying docs to site..."
+cd ..
+mkdir -p site/_site/docs/codo
+cp -r doc/* site/_site/docs/codo
+rm -rf doc
+
+git checkout gh-pages
+
+echo -e "\n[BUILDING SITE] deleting everything but site..."
 shopt -s extglob
-rm -r !(site|docs)
+rm -r !(site)
 
 echo -e "\n[BUILDING SITE] preparing for commit..."
-cp -r site/* .
+cp -r site/_site/* .
 rm -rf site
+git add .
 
 echo -e "\n[BUILDING SITE] committing..."
-git checkout gh-pages
-git add .
 git commit -m "update generated documentation"
 
 echo -e "\n[BUILDING SITE] pushing..."

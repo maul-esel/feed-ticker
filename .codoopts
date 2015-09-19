@@ -2,7 +2,6 @@
 --private
 --cautious
 --title "FeedTicker Code Documentation"
---output ./docs/codo
 ./lib
 main.coffee
 -
