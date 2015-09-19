@@ -1,0 +1,28 @@
+---
+---
+
+#document
+  padding: 0 5%
+
+img
+  width: 100%
+  border: solid lightgray 3px
+
+p:nth-of-type(4n+0), p:nth-of-type(4n+1), h2:nth-of-type(even)
+  float: left
+  text-align: right
+
+p:nth-of-type(4n+2), p:nth-of-type(4n+3), h2:nth-of-type(odd)
+  float: right
+  text-align: left
+
+p:nth-of-type(even), h2
+  width: 60%
+
+p:nth-of-type(even)
+  text-align: justify
+
+p:nth-of-type(odd)
+  clear: both
+  width: 35%
+  text-align: justify

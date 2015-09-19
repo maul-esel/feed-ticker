@@ -4,7 +4,7 @@ css: ['index']
 permalink: index.html
 ---
 
-* ![](images/icon.svg) [Features]()
+* ![](images/icon.svg) [Features]({{ site.baseurl }}/features/)
 * ![](images/icon.svg) [Get it now!]()
 * ![](images/icon.svg) [Documentation]()
 
