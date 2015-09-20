@@ -1,13 +1,15 @@
-body {
-  overflow: hidden;
-  margin: 0;
-  padding: 5px;
-}
 #content {
   position: absolute;
   top:0;bottom:0;left:0;right:0;
+
   padding: 10px;
-  background: linear-gradient(0deg, #a5a5a5 5%, #e9e9e9 70%)
+  border-bottom: solid transparent 10px;
+  overflow: hidden;
+
+  background: linear-gradient(0deg, #a5a5a5 5%, #e9e9e9 70%);
+  background-origin: border-box;
+
+  text-align: justify;
 }
 h1 {
   font-size: 100%;
