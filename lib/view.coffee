@@ -23,7 +23,7 @@ class window.View
     @container.addEventListener('mouseleave', @startMoving, true)
 
   ###
-  Callback for communication with the @see ViewManager
+  Callback for communication with the {ViewManager}
   @private
   ###
   onMessageReceived : (event) =>

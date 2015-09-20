@@ -15,7 +15,7 @@ _ = require('sdk/l10n').get
 
 ###
 Manages the displayed items.
-Communicates with @see View instances running in the context of the UI's frame.
+Communicates with {View} instances running in the context of the UI's frame.
 ###
 class ViewManager extends EventTarget
   ###
@@ -36,7 +36,7 @@ class ViewManager extends EventTarget
 
   ###
   Clears the list of displayed items
-  @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  @note To have any effect on the UI, {#update} must be called after any calls ot this method.
   ###
   clear : =>
     @displayedItems = []
@@ -46,7 +46,7 @@ class ViewManager extends EventTarget
 
   @param item [FeedItem] The item to be displayed
 
-  @note To have any effect on the UI, @see update() must be called after any calls ot this method.
+  @note To have any effect on the UI, {#update} must be called after any calls ot this method.
   ###
   displayItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
@@ -60,7 +60,7 @@ class ViewManager extends EventTarget
 
   @param item [FeedItem] The item to be removed
 
-  @note Unlike @see displayItem, this method triggers an immediate update.
+  @note Unlike {#displayItem}, this method triggers an immediate update.
   ###
   removeItem : (item) =>
     index = @displayedItems.findIndex((other) => other.id == item.id)
@@ -144,7 +144,7 @@ class ViewManager extends EventTarget
     ]).menuButton(btn, true)
 
   ###
-  Helper method for communication with the @see View instances
+  Helper method for communication with the {View} instances
   @private
 
   @param command [String] The command to send to the views
@@ -159,7 +159,7 @@ class ViewManager extends EventTarget
     }), origin ? @frame.url)
 
   ###
-  Callback method for communication with the @see View instances
+  Callback method for communication with the {View} instances
   @private
   ###
   onReceiveMessage : (event) =>

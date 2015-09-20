@@ -8,7 +8,7 @@ Cu.import('resource://gre/modules/PlacesUtils.jsm')
 ###
 # Provides a source of feeds
 interface Source
-  # Gets the @see Feed instances for this source
+  # Gets the {Feed} instances for this source
   #
   # @return [Array<Feed>] the feeds provided by this source
   getFeeds : ()

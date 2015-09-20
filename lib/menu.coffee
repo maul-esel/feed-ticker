@@ -207,7 +207,7 @@ class Menu extends MenuBase
   Sets this menu as context menu on a given target
 
   @param target [String,Object] The target for the context menu, either as XUL ID (String)
-    or as an object on which @see identify() returns the XUL id.
+    or as an object on which {identify()} returns the XUL id.
   ###
   contextMenu : (target) =>
     target = identify(target) unless typeof(target) == 'string'

@@ -13,7 +13,7 @@ interface Filter
 ###
 
 ###
-Implements a @see Filter that filters out already visited links.
+Implements a {Filter} that filters out already visited links.
 ###
 class HistoryFilter # implements Filter
   isAccepted : (item) =>
