@@ -11,4 +11,5 @@ as there's something new, you'll know.
 
 * ![](images/icon.svg) [Features]({{ site.baseurl }}/features/)
 * ![](images/icon.svg) [Get it now!]({{ site.current_release_download }})
+* ![](images/icon.svg) [News]({{ site.baseurl }}/news/)
 * ![](images/icon.svg) [Documentation]({{ site.baseurl }}/documentation/)
