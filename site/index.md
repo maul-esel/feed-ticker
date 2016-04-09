@@ -10,6 +10,6 @@ that displays your RSS or Atom feeds in a moving toolbar, as seen above. As soon
 as there's something new, you'll know.
 
 * ![](images/icon.svg) [Features]({{ site.baseurl }}/features/)
-* ![](images/icon.svg) [Get it now!]({{ site.current_release_download }})
+* ![](images/icon.svg) [Get it now!](https://addons.mozilla.org/firefox/addon/feedticker/)
 * ![](images/icon.svg) [News]({{ site.baseurl }}/news/)
 * ![](images/icon.svg) [Documentation]({{ site.baseurl }}/documentation/)
