@@ -8,6 +8,15 @@ redcarpet:
     - smart
 baseurl: "/feed-ticker"
 permalink: "/:year/:month/:day/:title/"
+gems:
+  - jekyll-feed
+
+name: "FeedTicker Website"
+description: "Website for the \"FeedTicker\" Firefox addon, which displays Atom and RSS feeds as a moving ticker in a browser toolbar"
+url: "https://maul-esel.github.io"
+author: "Dominik Klumpp"
+feed:
+  path: atom.xml
 
 defaults:
   -
